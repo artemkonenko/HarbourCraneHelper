@@ -6,7 +6,7 @@ class DummyExpert
 {
 
 public:
-	std::pair<double, double> resolutution( double wind, double wave, double distance );
+	std::pair<double, double> resolution(double wind, double wave, double distance, double hSpeed);
 };
 
 #endif

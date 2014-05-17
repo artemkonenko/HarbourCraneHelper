@@ -8,12 +8,12 @@ using namespace std;
 double Wind::operator()()
 {
 	++tick;
-	return state += 4 * cos(tick) - ( rand() % 12 > 7 ? 3 : 1 ) * sin(tick);
+	return state += maxStrength * cos(tick) - maxStrength * tan(tick/2);
 }
 
 
 double Wave::operator()()
 {
 	++tick;
-	return state += 9 * sin(tick) + ( rand() % 31 > 28 ? 4 : 1 ) * cos(tick);
+	return state += maxHeight * sin(tick) - maxHeight * cos(tick/2);
 }
