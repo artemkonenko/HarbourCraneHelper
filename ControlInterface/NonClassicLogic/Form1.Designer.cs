@@ -34,6 +34,12 @@
             this.sidewayViewPicture = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.windSpeed = new System.Windows.Forms.TextBox();
+            this.cargoSpeed = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.waveHeight = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.topViewPicture)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sidewayViewPicture)).BeginInit();
             this.SuspendLayout();
@@ -60,13 +66,14 @@
             // 
             this.topViewPicture.Location = new System.Drawing.Point(13, 140);
             this.topViewPicture.Name = "topViewPicture";
-            this.topViewPicture.Size = new System.Drawing.Size(407, 242);
+            this.topViewPicture.Size = new System.Drawing.Size(467, 242);
             this.topViewPicture.TabIndex = 2;
             this.topViewPicture.TabStop = false;
+            this.topViewPicture.Click += new System.EventHandler(this.topViewPicture_Click);
             // 
             // sidewayViewPicture
             // 
-            this.sidewayViewPicture.Location = new System.Drawing.Point(426, 140);
+            this.sidewayViewPicture.Location = new System.Drawing.Point(486, 140);
             this.sidewayViewPicture.Name = "sidewayViewPicture";
             this.sidewayViewPicture.Size = new System.Drawing.Size(470, 242);
             this.sidewayViewPicture.TabIndex = 3;
@@ -85,18 +92,77 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(423, 121);
+            this.label2.Location = new System.Drawing.Point(483, 121);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(58, 13);
             this.label2.TabIndex = 5;
             this.label2.Text = "Вид сбоку";
             this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(181, 18);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(87, 13);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Скорость ветра";
+            this.label3.Click += new System.EventHandler(this.label3_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(301, 18);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(93, 13);
+            this.label4.TabIndex = 7;
+            this.label4.Text = "Скорость спуска";
+            // 
+            // windSpeed
+            // 
+            this.windSpeed.Enabled = false;
+            this.windSpeed.Location = new System.Drawing.Point(184, 46);
+            this.windSpeed.Name = "windSpeed";
+            this.windSpeed.Size = new System.Drawing.Size(100, 20);
+            this.windSpeed.TabIndex = 8;
+            // 
+            // cargoSpeed
+            // 
+            this.cargoSpeed.Enabled = false;
+            this.cargoSpeed.Location = new System.Drawing.Point(304, 46);
+            this.cargoSpeed.Name = "cargoSpeed";
+            this.cargoSpeed.Size = new System.Drawing.Size(100, 20);
+            this.cargoSpeed.TabIndex = 9;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(421, 18);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(80, 13);
+            this.label5.TabIndex = 10;
+            this.label5.Text = "Высота волны";
+            this.label5.Click += new System.EventHandler(this.label5_Click);
+            // 
+            // waveHeight
+            // 
+            this.waveHeight.Enabled = false;
+            this.waveHeight.Location = new System.Drawing.Point(424, 46);
+            this.waveHeight.Name = "waveHeight";
+            this.waveHeight.Size = new System.Drawing.Size(100, 20);
+            this.waveHeight.TabIndex = 11;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(908, 392);
+            this.ClientSize = new System.Drawing.Size(968, 392);
+            this.Controls.Add(this.waveHeight);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.cargoSpeed);
+            this.Controls.Add(this.windSpeed);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.sidewayViewPicture);
@@ -121,6 +187,12 @@
         private System.Windows.Forms.PictureBox sidewayViewPicture;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox windSpeed;
+        private System.Windows.Forms.TextBox cargoSpeed;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox waveHeight;
     }
 }
 

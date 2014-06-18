@@ -12,29 +12,43 @@ namespace NonClassicLogic
 {
     public partial class Form1 : Form
     {
-        //оступ от границы pictureBox'a при отрисовки, по длине
-        const int widthIndent = 40;
+        //оступ от границы pictureBox'a при отрисовки
+        const int INDENT = 40;
         //пусть 1 метр = 3 пикселям, тогда максимальная высота волны = 24 пикселя
         const int testWave = 24;
 
 
         //битмап вида сбоку
-        static Bitmap sideway;
+        static Bitmap sideView;
         //графика вида сбоку
-        static Graphics sidewayGraphics;
+        static Graphics sideViewGraphics;
+        //битмап вида сверху
+        static Bitmap topView;
+        //графика вида сверху
+        static Graphics topViewGraphics;
 
         public Form1()
         {
             InitializeComponent();
             //инициализация вида сбоку
-            sideway = new Bitmap(sidewayViewPicture.Size.Width, sidewayViewPicture.Size.Height);
-            sidewayGraphics = Graphics.FromImage(sideway);
-            sidewayViewPicture.Image = sideway;
+            sideView = new Bitmap(sidewayViewPicture.Size.Width, sidewayViewPicture.Size.Height);
+            sideViewGraphics = Graphics.FromImage(sideView);
+            sidewayViewPicture.Image = sideView;
+            //инициализация вида сверху
+            topView = new Bitmap(topViewPicture.Size.Width, topViewPicture.Size.Height);
+            topViewGraphics = Graphics.FromImage(topView);
+            topViewPicture.Image = topView;
+
+            //тесты...
             drawWaveSideway(testWave);
             //отрисовка корабля
             drawShipSideway(testWave);
             //отрисовка люльки крана и груза
-            drawCraneWithCargoSideWay(sideway.Size.Width/2 - 40);
+            drawCraneWithCargoSideWay(sideView.Size.Width/2 - 40, -60, 30);
+
+
+            //отрисовка корабля в виде сверху
+            drawShipTopView();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -52,18 +66,30 @@ namespace NonClassicLogic
 
         }
         
+
+        ////////////////////////////SIDEWAY////////////////////////////////
+
+        //отрисовка всего вида сбоку по входным параметрам
+        private void drawSideView(int waveHeight = 0, int cranePos = 0, int deltaWind = 0, int distance = 15)
+        {
+            drawWaveSideway(waveHeight);
+            drawShipSideway(waveHeight);
+            drawCraneWithCargoSideWay(cranePos, deltaWind, distance);
+        }
+
+
         //отрисовка корабля в виде сбоку, высота волны входной параметр
         private void drawShipSideway(int waveHeight = 0)
         {
             // Create points that define polygon.
-            Point point1 = new Point(0 + widthIndent, sideway.Size.Height - 40 - waveHeight);
-            Point point2 = new Point(0 + 40 + widthIndent, sideway.Size.Height - waveHeight);
-            Point point3 = new Point(sideway.Size.Width - 40 - widthIndent, sideway.Size.Height - waveHeight);
-            Point point4 = new Point(sideway.Size.Width - widthIndent, sideway.Size.Height - 40 - waveHeight);
-            Point point5 = new Point(sideway.Size.Width - 40 - widthIndent, sideway.Size.Height - 40 - waveHeight);
-            Point point6 = new Point(sideway.Size.Width - 40 - widthIndent, sideway.Size.Height - 80 - waveHeight);
-            Point point7 = new Point(sideway.Size.Width - 80 - widthIndent, sideway.Size.Height - 80 - waveHeight);
-            Point point8 = new Point(sideway.Size.Width - 80 - widthIndent, sideway.Size.Height - 40 - waveHeight);
+            Point point1 = new Point(0 + INDENT, sideView.Size.Height - 40 - waveHeight);
+            Point point2 = new Point(0 + 40 + INDENT, sideView.Size.Height - waveHeight);
+            Point point3 = new Point(sideView.Size.Width - 40 - INDENT, sideView.Size.Height - waveHeight);
+            Point point4 = new Point(sideView.Size.Width - INDENT, sideView.Size.Height - 40 - waveHeight);
+            Point point5 = new Point(sideView.Size.Width - 40 - INDENT, sideView.Size.Height - 40 - waveHeight);
+            Point point6 = new Point(sideView.Size.Width - 40 - INDENT, sideView.Size.Height - 80 - waveHeight);
+            Point point7 = new Point(sideView.Size.Width - 80 - INDENT, sideView.Size.Height - 80 - waveHeight);
+            Point point8 = new Point(sideView.Size.Width - 80 - INDENT, sideView.Size.Height - 40 - waveHeight);
             Point[] curvePoints =
             {
                  point1,
@@ -76,9 +102,9 @@ namespace NonClassicLogic
                  point8
             };
             //заполнить область корабля белым цветом
-            sidewayGraphics.FillPolygon(new SolidBrush(Color.White), curvePoints);
+            sideViewGraphics.FillPolygon(new SolidBrush(Color.White), curvePoints);
             //отрисовать корабль
-            sidewayGraphics.DrawPolygon(new Pen(Color.Black, 3), curvePoints);
+            sideViewGraphics.DrawPolygon(new Pen(Color.Black, 3), curvePoints);
             //обновить изображение
             Invalidate();
         }
@@ -87,17 +113,17 @@ namespace NonClassicLogic
         private void drawWaveSideway(int waveHeight = 0)
         {
             Point[] curvePoints = new Point[10];
-            int step = sideway.Size.Width / 4;
+            int step = sideView.Size.Width / 4;
             int highPoints = 0;
             int lowPoints = 0;
             for (int i = 1; i < 10; i += 2) 
             { 
-                curvePoints[i - 1] = new Point(lowPoints, sideway.Size.Height);
-                curvePoints[i] = new Point(highPoints, sideway.Size.Height - waveHeight);
+                curvePoints[i - 1] = new Point(lowPoints, sideView.Size.Height);
+                curvePoints[i] = new Point(highPoints, sideView.Size.Height - waveHeight);
                 highPoints += step;
                 lowPoints += step;
             }
-            sidewayGraphics.DrawCurve(new Pen(Color.Blue, 3), curvePoints);
+            sideViewGraphics.DrawCurve(new Pen(Color.Blue, 3), curvePoints);
             Invalidate();
         }
 
@@ -116,8 +142,8 @@ namespace NonClassicLogic
                 point3,
                 point4
             };
-            sidewayGraphics.FillPolygon(new SolidBrush(Color.White), curvePoints);
-            sidewayGraphics.DrawPolygon(new Pen(Color.Black, 3), curvePoints);
+            sideViewGraphics.FillPolygon(new SolidBrush(Color.White), curvePoints);
+            sideViewGraphics.DrawPolygon(new Pen(Color.Black, 3), curvePoints);
             Invalidate();
 
             //отрисовка груза (длина = 36, высота = 9, точка соединения = 18)
@@ -132,12 +158,63 @@ namespace NonClassicLogic
                 p3,
                 p4
             };
-            sidewayGraphics.FillPolygon(new SolidBrush(Color.White), cargoPoints);
-            sidewayGraphics.DrawPolygon(new Pen(Color.Black, 3), cargoPoints);
+            sideViewGraphics.FillPolygon(new SolidBrush(Color.White), cargoPoints);
+            sideViewGraphics.DrawPolygon(new Pen(Color.Black, 3), cargoPoints);
             Invalidate();
 
             //отрисовка каната от люльки до груза
-            sidewayGraphics.DrawLine(new Pen(Color.Black, 3), new Point(cranePos + 40, 40), new Point(cranePos + 40 + deltaWind, 40 + distance));
+            sideViewGraphics.DrawLine(new Pen(Color.Black, 3), new Point(cranePos + 40, 40), new Point(cranePos + 40 + deltaWind, 40 + distance));
+        }
+
+
+
+        ////////////////////////////TopView////////////////////////////////
+
+        //отрисовка корабля в виде сверху
+        private void drawShipTopView()
+        {
+            //ширина корабля 16 контейнеров = 2*2*16 = 64 пикселей
+            Point point1 = new Point(topView.Size.Width / 2, INDENT);
+            Point point2 = new Point((topView.Size.Width / 2) - 32, 20 + INDENT);
+            Point point3 = new Point((topView.Size.Width / 2) - 32, topView.Size.Height - INDENT - 20);
+            Point point4 = new Point(topView.Size.Width / 2, topView.Size.Height - INDENT);
+            Point point5 = new Point((topView.Size.Width / 2) + 32, topView.Size.Height - INDENT - 20);
+            Point point6 = new Point((topView.Size.Width / 2) + 32, 20 + INDENT);
+            Point[] curvePoints = 
+            {
+                point1,
+                point2,
+                point3,
+                point4,
+                point5,
+                point6
+            };
+            topViewGraphics.FillPolygon(new SolidBrush(Color.White), curvePoints);
+            topViewGraphics.DrawPolygon(new Pen(Color.Black, 3), curvePoints);
+        }
+
+        //отрисовка крана с люлькой для вида сверху(позиция люльки, смещение груза)
+        private void drawCraneTopView(int cranePos = 0, int deltaWind = 0)
+        {
+            
+        }
+
+
+
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void topViewPicture_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
