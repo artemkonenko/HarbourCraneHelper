@@ -46,9 +46,11 @@ namespace NonClassicLogic
             //отрисовка люльки крана и груза
             drawCraneWithCargoSideWay(sideView.Size.Width/2 - 40, -60, 30);
 
-
+            
             //отрисовка корабля в виде сверху
             drawShipTopView();
+            //отрисовка крана
+            drawCraneTopView(0, 100, -20);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -194,9 +196,18 @@ namespace NonClassicLogic
         }
 
         //отрисовка крана с люлькой для вида сверху(позиция люльки, смещение груза)
-        private void drawCraneTopView(int cranePos = 0, int deltaWind = 0)
+        private void drawCraneTopView(int cranePosHorizontal = 0, int cranePosVertical = 0, int deltaWind = 0)
         {
-            
+            topViewGraphics.DrawLine(new Pen(Color.Black, 3), new Point(INDENT, cranePosVertical), new Point(topView.Size.Width - INDENT, cranePosVertical));
+            topViewGraphics.DrawLine(new Pen(Color.Black, 3), new Point(INDENT, cranePosVertical + 30), new Point(topView.Size.Width - INDENT, cranePosVertical + 30));
+
+            //отрисовка груза
+            topViewGraphics.FillRectangle(new SolidBrush(Color.Coral), INDENT + 15, cranePosVertical - 3 + deltaWind, 6, 36);
+            topViewGraphics.DrawRectangle(new Pen(Color.Black, 1), INDENT + 15, cranePosVertical - 3 + deltaWind, 6, 36);
+
+            //отрисовка люльки крана
+            topViewGraphics.FillRectangle(new SolidBrush(Color.Gray), INDENT + cranePosHorizontal, cranePosVertical, 30, 30);
+            topViewGraphics.DrawRectangle(new Pen(Color.Black, 3), INDENT + cranePosHorizontal, cranePosVertical, 30, 30);
         }
 
 
