@@ -16,7 +16,7 @@ namespace NonClassicLogic
         double maxHeight = 8;    // м
 
         double cargoSquare = 31.589472; // м^2
-        double cargoWeight = 30.4;      // кг
+        double cargoWeight = 30400;      // кг
 
         double robeLenght = 0; // м
 
@@ -84,9 +84,13 @@ namespace NonClassicLogic
             return craneHeight - cargoVerticalMove() - getRobeLenght();
         }
 
-        public void fuckOut() // Отпустить груз на палубу.
+        public void release() // Отпустить груз на палубу.
         {
             // todo: check, that we don't crash our niggas.
+            if (Math.Sqrt(2*10*getDistance()) > 2)
+            {
+                throw new Exception("Мы продолбали груз.");
+            }
         }
     }
 }

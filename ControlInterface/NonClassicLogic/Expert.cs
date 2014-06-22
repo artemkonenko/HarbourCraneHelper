@@ -54,5 +54,14 @@ namespace NonClassicLogic
         {
             return distance - lenght > 5 ? 5 : distance - lenght;
         }
+
+        public bool isTimeToRelease( double distance )
+        {
+            if ( distance < 2 )
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

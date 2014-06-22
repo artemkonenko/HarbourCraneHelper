@@ -217,6 +217,19 @@ namespace NonClassicLogic
                     //    !!!ACHTUNG!!!
                     Invoke(drawTopview, world.getDistance());
 
+                    if (expert.isTimeToRelease(world.getDistance()))
+                    {
+                        try
+                        {
+                            world.release();
+                        }
+                        catch (Exception e)
+                        {
+                            // todo: сообщить о фейле
+                        }
+                        break;
+                    }
+
                     tick++;
                     world.moveRobe(expert.getMaxCargoSpeed(world.getRobeLenght(), world.getDistance()));
                     Thread.Sleep(100);
