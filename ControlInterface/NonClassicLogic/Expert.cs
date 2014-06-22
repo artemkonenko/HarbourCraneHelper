@@ -55,13 +55,13 @@ namespace NonClassicLogic
 
         public double getMaxCargoSpeed( double cargoHorizontalMove, double distance )
         {            
-            return this.logic.getHeightCompensation(cargoHorizontalMove, distance); //спуск
-            //return distance - lenght > 5 ? 5 : distance - lenght;
+            //return this.logic.getHeightCompensation(cargoHorizontalMove, distance); //спуск
+            return distance > 5 ? 5 : distance;
         }
 
-        public bool isTimeToRelease( double distance )
+        public bool isTimeToRelease( double nextDistance )
         {
-            if ( distance < 2 )
+            if (nextDistance < 0.1)
             {
                 return true;
             }

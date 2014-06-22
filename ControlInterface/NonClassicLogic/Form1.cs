@@ -15,8 +15,6 @@ namespace NonClassicLogic
     {
         //оступ от границы pictureBox'a при отрисовки
         const int INDENT = 40;
-        //пусть 1 метр = 3 пикселям, тогда максимальная высота волны = 24 пикселя
-        const int testWave = 24;
 
         private int tick = 0;
 
@@ -196,8 +194,22 @@ namespace NonClassicLogic
         {
             try
             {
+                world.setTick(tick);
                 while (true)
                 {
+                    if (world.getDistance() < 1 )
+                    {
+                        try
+                        {
+                            world.release();
+                        }
+                        catch (Exception e)
+                        {
+                            MessageBox.Show(e.Message, "Упс, груз разбит...", MessageBoxButtons.OK);
+                        }
+                        break;
+                    }
+
                     world.setTick(tick);
                     //заполнение TextBox'ов с параметрами
                     getParametersDelegate getParams = new getParametersDelegate(getParameters);
@@ -223,21 +235,9 @@ namespace NonClassicLogic
                     //    !!!ACHTUNG!!!
                     Invoke(drawTopview, world.getDistance());
 
-                    if (expert.isTimeToRelease(world.getDistance()))
-                    {
-                        try
-                        {
-                            world.release();
-                        }
-                        catch (Exception e)
-                        {
-                            MessageBox.Show(e.Message, "Упс, груз разбит...", MessageBoxButtons.OK);
-                        }
-                        break;
-                    }
+                    world.moveRobe(expert.getMaxCargoSpeed(world.cargoHorizontalMove(), world.getDistance()));
 
                     tick++;
-                    world.moveRobe(expert.getMaxCargoSpeed(world.getRobeLenght(), world.getDistance()));
                     Thread.Sleep(100);
                 }
             }
@@ -287,7 +287,7 @@ namespace NonClassicLogic
             //отрисовка волны
             drawWaveSideway((int)(world.getWave()));
             //отрисовка люльки крана и груза
-            drawCraneWithCargoSideWay(world.getRobeLenght());
+            drawCraneWithCargoSideWay(world.getRobeLenght() - world.cargoVerticalMove());
             //обновление изображения
             sidewayViewPicture.Refresh();
         }
