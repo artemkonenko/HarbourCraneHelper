@@ -1,1 +1,3 @@
 D:\Projects\Visual Studio\Skorohod\Skorohod\bin\Debug\Skorohod.exe.config
+D:\GitHub\HarbourCraneHelper\Skorohod\Skorohod\bin\Debug\Skorohod.exe.config
+D:\GitHub\HarbourCraneHelper\Skorohod\Skorohod\obj\Debug\Skorohod.csprojResolveAssemblyReference.cache

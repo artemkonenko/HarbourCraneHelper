@@ -13,6 +13,9 @@ namespace Skorohod
         static void Main(string[] args)
         {
             FuzzyGraph Deviation = new FuzzyGraph();
+
+            Deviation.addFuzzyTrapeze(DeviationFuzzyTypes.StronglyLeft, new FuzzyTrapeze(
+                )
         }
     }
 }
