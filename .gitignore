@@ -26,3 +26,6 @@
 
 # caches
 *.cache
+
+\Skorohod\Skorohod\bin\*
+\Skorohod\Skorohod\obj\*
