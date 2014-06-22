@@ -71,7 +71,6 @@
             this.topViewPicture.Size = new System.Drawing.Size(467, 242);
             this.topViewPicture.TabIndex = 2;
             this.topViewPicture.TabStop = false;
-            this.topViewPicture.Click += new System.EventHandler(this.topViewPicture_Click);
             // 
             // sidewayViewPicture
             // 
@@ -107,7 +106,6 @@
             this.label3.Size = new System.Drawing.Size(87, 13);
             this.label3.TabIndex = 6;
             this.label3.Text = "Скорость ветра";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // label4
             // 
@@ -142,7 +140,6 @@
             this.label5.Size = new System.Drawing.Size(80, 13);
             this.label5.TabIndex = 10;
             this.label5.Text = "Высота волны";
-            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // waveHeight
             // 

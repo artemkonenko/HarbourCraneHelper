@@ -217,21 +217,6 @@ namespace NonClassicLogic
         }
 
 
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void topViewPicture_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void startButton_Click(object sender, EventArgs e)
         {
             if ((graphicsThread == null) || (graphicsThread.ThreadState == System.Threading.ThreadState.Stopped))
