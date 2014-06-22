@@ -21,7 +21,7 @@ namespace NonClassicLogic
 
 
         /* Параметры системы */
-        const double timeDimension = 0.1; // Разрешение системы/частота опроса
+        public static readonly double timeDimension = 0.1; // Разрешение системы/частота опроса
 
 
 

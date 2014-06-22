@@ -239,7 +239,7 @@ namespace NonClassicLogic
 
                     tick++;
                     world.moveRobe(expert.getMaxCargoSpeed(world.getRobeLenght(), world.getDistance()));
-                    Thread.Sleep(100);
+                    Thread.Sleep(1000);
                 }
             }
             catch (System.ObjectDisposedException e) { }
@@ -268,12 +268,13 @@ namespace NonClassicLogic
         private delegate void getParametersDelegate(int i);
         private void getParameters(int i)
         {
-            cargoSpeed.Text = i.ToString();
+            iteration.Text = i.ToString();
             windSpeed.Text = world.getWind().ToString();
             waveHeight.Text = world.getWave().ToString();
+
             windSpeed.Refresh();
             waveHeight.Refresh();
-            cargoSpeed.Refresh();
+            iteration.Refresh();
         }
 
         //отрисовка вида сбоку через делегат

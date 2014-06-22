@@ -37,9 +37,13 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.windSpeed = new System.Windows.Forms.TextBox();
-            this.cargoSpeed = new System.Windows.Forms.TextBox();
+            this.iteration = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.waveHeight = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.deviation = new System.Windows.Forms.TextBox();
+            this.height = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.topViewPicture)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sidewayViewPicture)).BeginInit();
             this.SuspendLayout();
@@ -101,7 +105,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(181, 18);
+            this.label3.Location = new System.Drawing.Point(181, 16);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(87, 13);
             this.label3.TabIndex = 6;
@@ -110,32 +114,32 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(301, 18);
+            this.label4.Location = new System.Drawing.Point(544, 15);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(93, 13);
+            this.label4.Size = new System.Drawing.Size(56, 13);
             this.label4.TabIndex = 7;
-            this.label4.Text = "Скорость спуска";
+            this.label4.Text = "Итерация";
             // 
             // windSpeed
             // 
             this.windSpeed.Enabled = false;
-            this.windSpeed.Location = new System.Drawing.Point(184, 46);
+            this.windSpeed.Location = new System.Drawing.Point(274, 12);
             this.windSpeed.Name = "windSpeed";
-            this.windSpeed.Size = new System.Drawing.Size(100, 20);
+            this.windSpeed.Size = new System.Drawing.Size(73, 20);
             this.windSpeed.TabIndex = 8;
             // 
-            // cargoSpeed
+            // iteration
             // 
-            this.cargoSpeed.Enabled = false;
-            this.cargoSpeed.Location = new System.Drawing.Point(304, 46);
-            this.cargoSpeed.Name = "cargoSpeed";
-            this.cargoSpeed.Size = new System.Drawing.Size(100, 20);
-            this.cargoSpeed.TabIndex = 9;
+            this.iteration.Enabled = false;
+            this.iteration.Location = new System.Drawing.Point(606, 12);
+            this.iteration.Name = "iteration";
+            this.iteration.Size = new System.Drawing.Size(100, 20);
+            this.iteration.TabIndex = 9;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(421, 18);
+            this.label5.Location = new System.Drawing.Point(368, 15);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(80, 13);
             this.label5.TabIndex = 10;
@@ -144,19 +148,57 @@
             // waveHeight
             // 
             this.waveHeight.Enabled = false;
-            this.waveHeight.Location = new System.Drawing.Point(424, 46);
+            this.waveHeight.Location = new System.Drawing.Point(454, 12);
             this.waveHeight.Name = "waveHeight";
-            this.waveHeight.Size = new System.Drawing.Size(100, 20);
+            this.waveHeight.Size = new System.Drawing.Size(73, 20);
             this.waveHeight.TabIndex = 11;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(181, 41);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(68, 13);
+            this.label6.TabIndex = 12;
+            this.label6.Text = "Отклонение";
+            // 
+            // deviation
+            // 
+            this.deviation.Enabled = false;
+            this.deviation.Location = new System.Drawing.Point(274, 38);
+            this.deviation.Name = "deviation";
+            this.deviation.Size = new System.Drawing.Size(73, 20);
+            this.deviation.TabIndex = 13;
+            // 
+            // height
+            // 
+            this.height.AutoSize = true;
+            this.height.Location = new System.Drawing.Point(368, 41);
+            this.height.Name = "height";
+            this.height.Size = new System.Drawing.Size(67, 13);
+            this.height.TabIndex = 14;
+            this.height.Text = "Расстояние";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Enabled = false;
+            this.textBox1.Location = new System.Drawing.Point(454, 38);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(73, 20);
+            this.textBox1.TabIndex = 15;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(968, 392);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.height);
+            this.Controls.Add(this.deviation);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.waveHeight);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.cargoSpeed);
+            this.Controls.Add(this.iteration);
             this.Controls.Add(this.windSpeed);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -186,9 +228,13 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox windSpeed;
-        private System.Windows.Forms.TextBox cargoSpeed;
+        private System.Windows.Forms.TextBox iteration;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox waveHeight;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox deviation;
+        private System.Windows.Forms.Label height;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 

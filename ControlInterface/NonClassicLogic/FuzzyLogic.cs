@@ -11,25 +11,25 @@ namespace NonClassicLogic
     class FuzzyLogic
     {
         /* Характеристические показатели крана */
-        private double maxDeviationSpeed, maxHeightSpeed;
+        private double maxDeviationSpeedPerTick, maxHeightSpeedPerTick;
 
         /* Состояния */
         private enum DeviationFuzzyTypes { UnderControl, OutControl };
         private enum HeightFuzzyTypes { Dangerous, Close, Far };
         private enum SpeedFuzzyTypes { Up, DownSlow, DownFast };
 
-        /* Нечеткие правила */
-        private FuzzyGraph deviationGraph, heightGraph, speedGraph;
         /* Правила перехода */
         private int[,] rules = { 
                            { 0, 1, 2 },         //UnderControl
                            { 0, 0, 1 }          //OutControl
                            };
+        
+        private FuzzyGraph deviationGraph, heightGraph, speedGraph;
 
-        public FuzzyLogic(double maxDeviationSpeed, double maxHeightSpeed)
+        public FuzzyLogic(double maxDeviationSpeedPerTick, double maxHeightSpeedPerTick)
         {
-            this.maxDeviationSpeed = maxDeviationSpeed;
-            this.maxHeightSpeed = maxDeviationSpeed;
+            this.maxDeviationSpeedPerTick = maxDeviationSpeedPerTick;
+            this.maxHeightSpeedPerTick = maxHeightSpeedPerTick;
 
             /* Нечеткие правила для параметра ОТКЛОНЕНИЕ от конечной вертикали */
             this.deviationGraph = new FuzzyGraph(Enum.GetNames(typeof(DeviationFuzzyTypes)).Length);
@@ -51,17 +51,17 @@ namespace NonClassicLogic
 
         public double getDeviationCompensation(double d, double h)
         {
-            if (Math.Abs(d) < maxDeviationSpeed)
+            if (Math.Abs(d) < maxDeviationSpeedPerTick)
             {
                 return -d;
             }
 
-            return d < 0 ? maxDeviationSpeed : -maxDeviationSpeed;
+            return d < 0 ? maxDeviationSpeedPerTick : -maxDeviationSpeedPerTick;
         }
 
         public double getHeightCompensation(double d, double h)
         {
-            if (h <= maxHeightSpeed)
+            if (h <= maxHeightSpeedPerTick)
             {
                 return h;
             }
