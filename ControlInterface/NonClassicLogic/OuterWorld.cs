@@ -8,68 +8,49 @@ namespace NonClassicLogic
 {
     class OuterWorld
     {
-        double windState = 0;
-        double waveState = 0;
+        /* Параметры крана */
+        public static readonly double maxRobeDownSpeed = 3.0;           // м/c
+        public static readonly double maxRobeUpSpeed = 1.0;             // м/c
+        public static readonly double maxHorizontalCraneSpeed = 4.0;    // м/c
 
-	    long tick = 0;
-	    double maxStrength = 15; // м/c
-        double maxHeight = 8;    // м
 
-        double cargoSquare = 31.589472; // м^2
-        double cargoWeight = 30.400;      // кг
+        /* Параметры внешнего мира */
+        public static readonly double maxStrength = 15;     // м/c
+        public static readonly double maxHeight = 8;        // м
+        public static readonly double craneHeight = 30;     // м
 
-        double robeLenght = 0; // м
 
-        double maxRobeDownSpeed = 3; // м/c
-        double maxRobeUpSpeed = 1;   // м/c
+        /* Параметры системы */
+        const double timeDimension = 0.1; // Разрешение системы/частота опроса
 
-        double craneHeight = 30; // м
 
-        double timeDimension = 0.1; // Разрешение системы/частота опроса
 
-        // ---
-        public double getWind()
-        {
-            return maxStrength * Math.Cos(Math.Sqrt(tick));// -maxStrength * Math.Tan(tick / 2);
-        }
 
-        public double windStrenght()
-        {
-            return getWind() * getWind() * 0.61 * cargoSquare;
-        }
 
+        /* Получение данных о среде */
         public double cargoHorizontalMove()
         {
             double alpha = Math.Atan(windStrenght() / (cargoWeight * 10));
             return Math.Sign(getWind()) * getRobeLenght() * Math.Sin(alpha);
         }
 
-        public double cargoVerticalMove()
+        public double getDistance()
         {
-            double alpha = Math.Atan(windStrenght() / (cargoWeight * 10));
-            return getRobeLenght() * ( 1 - Math.Cos(alpha));
+            return craneHeight + cargoVerticalMove() - getRobeLenght();
         }
 
-        // ---
-        public double getWave()
+        public void release() // Отпустить груз на палубу.
         {
-            return maxHeight * Math.Sin(Math.Sqrt(tick));// -maxHeight * Math.Cos(tick / 2);
-        }
-
-        // ---
-        public void setTick( long t )
-        {
-            tick = t;
+            // todo: check, that we don't crash our niggas.
+            if (Math.Sqrt(2 * 10 * getDistance()) > 2)
+            {
+                throw new Exception("Мы продолбали груз.");
+            }
         }
 
 
-        // ---
-        public double getRobeLenght()
-        {
-            return robeLenght;
-        }
-
-        public void moveRobe( double diff )
+        /* Управления системой */
+        public void moveRobe(double diff)
         {
             if (diff > maxRobeDownSpeed * timeDimension)
                 diff = maxRobeDownSpeed * timeDimension;
@@ -79,24 +60,56 @@ namespace NonClassicLogic
             robeLenght += diff;
         }
 
-        public double getDistance()
+
+
+
+
+        /* Физические расчеты */
+        double cargoSquare = 31.589472; // м^2
+        double cargoWeight = 30.400;      // кг
+
+        public double windStrenght()
         {
-            return craneHeight - cargoVerticalMove() - getRobeLenght();
+            return getWind() * getWind() * 0.61 * cargoSquare;
         }
 
-        public void release() // Отпустить груз на палубу.
+        public double getWind()
         {
-            // todo: check, that we don't crash our niggas.
-            if (Math.Sqrt(2*10*getDistance()) > 2)
-            {
-                throw new Exception("Мы продолбали груз.");
-            }
+            return maxStrength * Math.Cos(Math.Sqrt(tick));// -maxStrength * Math.Tan(tick / 2);
         }
 
-        // ---
+        public double getWave()
+        {
+            return maxHeight * Math.Sin(Math.Sqrt(tick));// -maxHeight * Math.Cos(tick / 2);
+        }
+
+        public double cargoVerticalMove()
+        {
+            double alpha = Math.Atan(windStrenght() / (cargoWeight * 10));
+            return getRobeLenght() * (1 - Math.Cos(alpha));
+        }
+
+
+        /* Мусор */
+        public void setTick( long t )
+        {
+            tick = t;
+        }
+
+        public double getRobeLenght()
+        {
+            return robeLenght;
+        }
+
         public double getCraneHeight()
         {
             return craneHeight;
         }
+
+        double windState = 0;
+        double waveState = 0;
+
+        double robeLenght = 0;
+        long tick = 0;
     }
 }

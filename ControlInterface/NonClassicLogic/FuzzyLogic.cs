@@ -11,8 +11,7 @@ namespace NonClassicLogic
     class FuzzyLogic
     {
         /* Характеристические показатели крана */
-        private double maxDeviationSpeed = 4.0;
-        private double maxHeightSpeed = 2.0;
+        private double maxDeviationSpeed, maxHeightSpeed;
 
         /* Состояния */
         private enum DeviationFuzzyTypes { UnderControl, OutControl };
@@ -27,8 +26,11 @@ namespace NonClassicLogic
                            { 0, 0, 1 }          //OutControl
                            };
 
-        public FuzzyLogic()
+        public FuzzyLogic(double maxDeviationSpeed, double maxHeightSpeed)
         {
+            this.maxDeviationSpeed = maxDeviationSpeed;
+            this.maxHeightSpeed = maxDeviationSpeed;
+
             /* Нечеткие правила для параметра ОТКЛОНЕНИЕ от конечной вертикали */
             this.deviationGraph = new FuzzyGraph(Enum.GetNames(typeof(DeviationFuzzyTypes)).Length);
             deviationGraph.addFuzzyTrapeze((int)DeviationFuzzyTypes.UnderControl, new FuzzyTrapeze(0, 0, 3, 5));
