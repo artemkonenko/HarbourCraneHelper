@@ -54,8 +54,13 @@ namespace Skorohod
                         Math.Max(speedDistribution[rules[i, j]], Math.Min(deviationDistribution[i], heightDistribution[j]));
                 }
             }
-            
-            /* и тут появляется Янушка */
+
+            FuzzyDistribution test = new FuzzyDistribution();
+            test.Add(0.6);
+            test.Add(0.4);
+            test.Add(0.5);
+            List<Point> polygon = speedGraph.getPolygon(test);
+
             
             
             System.Console.ReadLine();

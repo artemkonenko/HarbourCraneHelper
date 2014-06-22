@@ -49,5 +49,63 @@ namespace Skorohod
             
             return res;
         }
+
+        public List<Point> getPolygon(List<double> distribution)
+        {
+            List<Point> res = new List<Point>();
+            if (distribution.Count != this._list.Count)
+            {
+                return null;
+            }
+            Trapeze t1 = _list[0].Cut(distribution[0]);
+            res.Add(t1.bottomLeft);
+            res.Add(t1.topLeft);
+            for (int i = 1; i < _list.Count; i++)
+            {
+                Trapeze t2 = _list[i].Cut(distribution[i]);
+                Point intersection = Point.getIntersection(t1.topRight, t1.bottomRight, t2.bottomLeft, t2.topLeft);
+                if (intersection != null)
+                {
+                    if (t1.topRight.y >= intersection.y)
+                    {
+                        res.Add(t1.topRight);
+                        if (t2.topLeft.y > intersection.y)
+                        {
+                            res.Add(t2.topLeft);
+                            res.Add(intersection);
+                        }
+                        else
+                        {
+                            res.Add(Point.getPointByTwoPointsAndY(t1.topRight, t1.bottomRight, distribution[i]));
+                        }
+                    }
+                    else
+                    {
+                        if (t2.topLeft.y > intersection.y)
+                        {
+                            res.Add(Point.getPointByTwoPointsAndY(t2.bottomLeft, t2.topLeft, distribution[i - 1]));
+                            res.Add(t2.topLeft);
+                        }
+                        else
+                        {
+                            if (t1.topRight.y > t2.topLeft.y)
+                            {
+                                res.Add(t1.topRight);
+                                res.Add(Point.getPointByTwoPointsAndY(t1.topRight, t1.bottomRight, distribution[i]));
+                            }
+                            else if (t1.topRight.y < t2.topLeft.y)
+                            {
+                                res.Add(t2.topLeft);
+                                res.Add(Point.getPointByTwoPointsAndY(t2.bottomLeft, t2.topLeft, distribution[i - 1]));
+                            }
+                        }
+                    }
+                }
+                t1 = t2;
+            }
+            res.Add(t1.topRight);
+            res.Add(t1.bottomRight);
+            return res;
+        }
     }
 }
