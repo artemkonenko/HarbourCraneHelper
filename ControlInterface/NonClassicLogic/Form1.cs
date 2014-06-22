@@ -240,8 +240,6 @@ namespace NonClassicLogic
                 graphicsThread.IsBackground = true;
                 graphicsThread.Start();
             }
-            else
-                graphicsThread.Resume();
         }
 
         private void stopButton_Click(object sender, EventArgs e)
