@@ -43,7 +43,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.deviation = new System.Windows.Forms.TextBox();
             this.height = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.distanceText = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.topViewPicture)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sidewayViewPicture)).BeginInit();
             this.SuspendLayout();
@@ -179,20 +179,20 @@
             this.height.TabIndex = 14;
             this.height.Text = "Расстояние";
             // 
-            // textBox1
+            // distanceText
             // 
-            this.textBox1.Enabled = false;
-            this.textBox1.Location = new System.Drawing.Point(454, 38);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(73, 20);
-            this.textBox1.TabIndex = 15;
+            this.distanceText.Enabled = false;
+            this.distanceText.Location = new System.Drawing.Point(454, 38);
+            this.distanceText.Name = "distanceText";
+            this.distanceText.Size = new System.Drawing.Size(73, 20);
+            this.distanceText.TabIndex = 15;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(968, 392);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.distanceText);
             this.Controls.Add(this.height);
             this.Controls.Add(this.deviation);
             this.Controls.Add(this.label6);
@@ -234,7 +234,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox deviation;
         private System.Windows.Forms.Label height;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox distanceText;
     }
 }
 

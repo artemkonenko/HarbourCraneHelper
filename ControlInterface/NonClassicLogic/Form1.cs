@@ -43,7 +43,6 @@ namespace NonClassicLogic
             sideViewGraphics = Graphics.FromImage(sideView);
             sidewayViewPicture.Image = sideView;
 
-            drawShipSideway(0);
         }
 
 
@@ -102,7 +101,7 @@ namespace NonClassicLogic
         {
             int cranePos = sideView.Size.Width / 2 - 10;
             //масштаб
-            double metersPerTick = (sideView.Size.Height - 70) / 30;
+            double metersPerTick = (sideView.Size.Height - 80) / 30;
 
             //отрисовка люльки
             Point point1 = new Point(cranePos, 0);
@@ -120,10 +119,10 @@ namespace NonClassicLogic
             sideViewGraphics.DrawPolygon(new Pen(Color.Black, 3), curvePoints);
 
             //отрисовка груза (длина = 36, высота = 9, точка соединения = 18)
-            Point p1 = new Point(cranePos + 10 - 18, 22 + (int)distance * (int)metersPerTick);
-            Point p2 = new Point(cranePos + 10 - 18, 22 + 9 + (int) distance * (int)metersPerTick);
-            Point p3 = new Point(cranePos + 10 + 18, 22 + 9 + (int) distance * (int)metersPerTick);
-            Point p4 = new Point(cranePos + 10 + 18, 22 + (int)distance * (int)metersPerTick);
+            Point p1 = new Point(cranePos + 10 - 18, 22 + (int)(distance * metersPerTick));
+            Point p2 = new Point(cranePos + 10 - 18, 22 + 9 + (int) (distance * metersPerTick));
+            Point p3 = new Point(cranePos + 10 + 18, 22 + 9 + (int) (distance * metersPerTick));
+            Point p4 = new Point(cranePos + 10 + 18, 22 + (int)(distance * metersPerTick));
             Point[] cargoPoints = 
             {
                 p1,
@@ -135,8 +134,8 @@ namespace NonClassicLogic
             sideViewGraphics.DrawPolygon(new Pen(Color.Black, 1), cargoPoints);
 
             //отрисовка каната от люльки до груза
-            sideViewGraphics.DrawLine(new Pen(Color.Black, 2), new Point(cranePos + 20, 20), new Point(cranePos + 10 + 18, 22 + (int)distance * (int)metersPerTick));
-            sideViewGraphics.DrawLine(new Pen(Color.Black, 2), new Point(cranePos, 20), new Point(cranePos - 9, 22 + (int)distance * (int)metersPerTick));
+            sideViewGraphics.DrawLine(new Pen(Color.Black, 2), new Point(cranePos + 20, 20), new Point(cranePos + 10 + 18, 22 + (int)(distance * metersPerTick)));
+            sideViewGraphics.DrawLine(new Pen(Color.Black, 2), new Point(cranePos, 20), new Point(cranePos - 8, 22 + (int) (distance * metersPerTick)));
         }
 
 
@@ -239,7 +238,7 @@ namespace NonClassicLogic
 
                     tick++;
                     world.moveRobe(expert.getMaxCargoSpeed(world.getRobeLenght(), world.getDistance()));
-                    Thread.Sleep(1000);
+                    Thread.Sleep(100);
                 }
             }
             catch (System.ObjectDisposedException e) { }
@@ -271,10 +270,12 @@ namespace NonClassicLogic
             iteration.Text = i.ToString();
             windSpeed.Text = world.getWind().ToString();
             waveHeight.Text = world.getWave().ToString();
+            distanceText.Text = world.getDistance().ToString(); 
 
             windSpeed.Refresh();
             waveHeight.Refresh();
             iteration.Refresh();
+            distanceText.Refresh();
         }
 
         //отрисовка вида сбоку через делегат
@@ -283,7 +284,7 @@ namespace NonClassicLogic
         {
             //отрисовка корабля
             drawShipSideway((int)(world.getWave()));
-
+            //отрисовка волны
             drawWaveSideway((int)(world.getWave()));
             //отрисовка люльки крана и груза
             drawCraneWithCargoSideWay(world.getRobeLenght());
@@ -295,8 +296,11 @@ namespace NonClassicLogic
         private delegate void drawTopViewDelegate(double distance);
         private void drawTopView(double distance)
         {
+            //отрисовка корабля
             drawShipTopView();
+            //отрисовка люльки крана и груза
             drawCraneTopView((int)expert.getCranePos(world.cargoHorizontalMove(), world.getDistance()), (int)(world.cargoHorizontalMove()));
+            //обновление изображения
             topViewPicture.Refresh();
         }
 
