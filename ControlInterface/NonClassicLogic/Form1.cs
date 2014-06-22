@@ -18,6 +18,7 @@ namespace NonClassicLogic
         //пусть 1 метр = 3 пикселям, тогда максимальная высота волны = 24 пикселя
         const int testWave = 24;
 
+        private int tick = 0;
 
         //битмап вида сбоку
         static Bitmap sideView;
@@ -182,13 +183,12 @@ namespace NonClassicLogic
         {
             try
             {
-                for (int i = 1; i < 200; ++i)
+                while (true)
                 {
-                    world.setTick(i);
-                    double distance = 40;
+                    world.setTick(tick);
                     //заполнение TextBox'ов с параметрами
                     getParametersDelegate getParams = new getParametersDelegate(getParameters);
-                    Invoke(getParams, i);
+                    Invoke(getParams, tick);
 
                     //вид сбоку, инициализация, отрисовка через делегат
                     sideView = new Bitmap(sidewayViewPicture.Size.Width, sidewayViewPicture.Size.Height);
@@ -197,7 +197,7 @@ namespace NonClassicLogic
 
                     drawSideWayDelegate drawSideway = new drawSideWayDelegate(drawSideWay);
                     //    !!!ACHTUNG!!!
-                    Invoke(drawSideway, distance);
+                    Invoke(drawSideway, world.getDistance());
 
                     // ----
 
@@ -208,9 +208,11 @@ namespace NonClassicLogic
 
                     drawTopViewDelegate drawTopview = new drawTopViewDelegate(drawTopView);
                     //    !!!ACHTUNG!!!
-                    Invoke(drawTopview, distance);
+                    Invoke(drawTopview, world.getDistance());
 
-                    Thread.Sleep(1000);
+                    tick++;
+                    world.moveRobe(expert.getMaxCargoSpeed(world.getRobeLenght(), world.getDistance()));
+                    Thread.Sleep(100);
                 }
             }
             catch (System.ObjectDisposedException e) { }
@@ -255,7 +257,7 @@ namespace NonClassicLogic
             //отрисовка корабля
             drawShipSideway((int)(world.getWave()));
             //отрисовка люльки крана и груза
-            drawCraneWithCargoSideWay((int)distance);
+            drawCraneWithCargoSideWay((int)world.getRobeLenght());
             //обновление изображения
             sidewayViewPicture.Refresh();
         }

@@ -5,3 +5,5 @@ D:\GitHub\HarbourCraneHelper\Skorohod\Skorohod\bin\Debug\Skorohod.exe
 D:\GitHub\HarbourCraneHelper\Skorohod\Skorohod\bin\Debug\Skorohod.pdb
 D:\GitHub\HarbourCraneHelper\Skorohod\Skorohod\obj\Debug\Skorohod.exe
 D:\GitHub\HarbourCraneHelper\Skorohod\Skorohod\obj\Debug\Skorohod.pdb
+D:\Dev\HarbourCraneHelper\Skorohod\Skorohod\bin\Debug\Skorohod.exe.config
+D:\Dev\HarbourCraneHelper\Skorohod\Skorohod\obj\Debug\Skorohod.pdb

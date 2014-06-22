@@ -52,24 +52,18 @@ namespace NonClassicLogic
             }
         }
 
-        double cargoSquare = 31.589472; // м^2
-        double cargoWeight = 30.4;      // кг
-
-        private double windStrenght ( double windSpeed )
-        {
-            return windSpeed * windSpeed * 0.61 * cargoSquare;
-        }
+        
 
         // -----
 
-        public double getCranePos( double windSpeed, double lenght )
+        public double getCranePos( double cargoHorizontalMove, double lenght )
         {
-            return lenght * windStrenght(windSpeed) / (cargoWeight * 10);
+            return lenght * cargoHorizontalMove;
         }
 
         public double getMaxCargoSpeed( double lenght, double distance )
         {
-            return distance - lenght;
+            return distance - lenght > 2 ? 2 : distance - lenght;
         }
     }
 }
