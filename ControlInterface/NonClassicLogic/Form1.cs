@@ -40,7 +40,6 @@ namespace NonClassicLogic
             topViewGraphics = Graphics.FromImage(topView);
             topViewPicture.Image = topView;
 
-            //drawCraneTopView((int)expert.getCranePos(world.getWind(), 40), (int)(world.getWind()));
         }
 
 
@@ -164,18 +163,18 @@ namespace NonClassicLogic
         private void drawCraneTopView(int cranePosHorizontal = 0, int deltaCargo = 0)
         {
             int cranePosVertical = topView.Size.Height / 2 - 10;
-
+            cranePosHorizontal += topView.Size.Width / 2;
             //линии на которых крепится люлька
             topViewGraphics.DrawLine(new Pen(Color.Black, 3), new Point(INDENT, cranePosVertical), new Point(topView.Size.Width - INDENT, cranePosVertical));
             topViewGraphics.DrawLine(new Pen(Color.Black, 3), new Point(INDENT, cranePosVertical + 20), new Point(topView.Size.Width - INDENT, cranePosVertical + 20));
 
             //отрисовка груза
-            topViewGraphics.FillRectangle(new SolidBrush(Color.Coral), cranePosHorizontal + 15 + deltaCargo, cranePosVertical - 6, 6, 36);
-            topViewGraphics.DrawRectangle(new Pen(Color.Black, 1), cranePosHorizontal + 15 + deltaCargo, cranePosVertical - 6, 6, 36);
+            topViewGraphics.FillRectangle(new SolidBrush(Color.Coral), cranePosHorizontal - 3 + deltaCargo, cranePosVertical - 6, 6, 36);
+            topViewGraphics.DrawRectangle(new Pen(Color.Black, 1), cranePosHorizontal - 3 + deltaCargo, cranePosVertical - 6, 6, 36);
 
             //отрисовка люльки крана
-            topViewGraphics.FillRectangle(new SolidBrush(Color.Gray), cranePosHorizontal, cranePosVertical, 20, 20);
-            topViewGraphics.DrawRectangle(new Pen(Color.Black, 3), cranePosHorizontal, cranePosVertical, 20, 20);
+            topViewGraphics.FillRectangle(new SolidBrush(Color.Gray), cranePosHorizontal - 10, cranePosVertical, 20, 20);
+            topViewGraphics.DrawRectangle(new Pen(Color.Black, 3), cranePosHorizontal - 10, cranePosVertical, 20, 20);
         }
 
         //функция старта, для потока, который вызывается по кнопке Start
