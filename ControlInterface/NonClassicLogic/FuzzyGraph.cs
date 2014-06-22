@@ -50,9 +50,9 @@ namespace NonClassicLogic
             return res;
         }
 
-        public List<Point> getPolygon(List<double> distribution)
+        public List<PointX> getPolygon(List<double> distribution)
         {
-            List<Point> res = new List<Point>();
+            List<PointX> res = new List<PointX>();
             if (distribution.Count != this._list.Count)
             {
                 return null;
@@ -63,7 +63,7 @@ namespace NonClassicLogic
             for (int i = 1; i < _list.Count; i++)
             {
                 Trapeze t2 = _list[i].Cut(distribution[i]);
-                Point intersection = Point.getIntersection(t1.topRight, t1.bottomRight, t2.bottomLeft, t2.topLeft);
+                PointX intersection = PointX.getIntersection(t1.topRight, t1.bottomRight, t2.bottomLeft, t2.topLeft);
                 if (intersection != null)
                 {
                     if (t1.topRight.y >= intersection.y)
@@ -76,14 +76,14 @@ namespace NonClassicLogic
                         }
                         else
                         {
-                            res.Add(Point.getPointByTwoPointsAndY(t1.topRight, t1.bottomRight, distribution[i]));
+                            res.Add(PointX.getPointXByTwoPointXsAndY(t1.topRight, t1.bottomRight, distribution[i]));
                         }
                     }
                     else
                     {
                         if (t2.topLeft.y > intersection.y)
                         {
-                            res.Add(Point.getPointByTwoPointsAndY(t2.bottomLeft, t2.topLeft, distribution[i - 1]));
+                            res.Add(PointX.getPointXByTwoPointXsAndY(t2.bottomLeft, t2.topLeft, distribution[i - 1]));
                             res.Add(t2.topLeft);
                         }
                         else
@@ -91,12 +91,12 @@ namespace NonClassicLogic
                             if (t1.topRight.y > t2.topLeft.y)
                             {
                                 res.Add(t1.topRight);
-                                res.Add(Point.getPointByTwoPointsAndY(t1.topRight, t1.bottomRight, distribution[i]));
+                                res.Add(PointX.getPointXByTwoPointXsAndY(t1.topRight, t1.bottomRight, distribution[i]));
                             }
                             else if (t1.topRight.y < t2.topLeft.y)
                             {
                                 res.Add(t2.topLeft);
-                                res.Add(Point.getPointByTwoPointsAndY(t2.bottomLeft, t2.topLeft, distribution[i - 1]));
+                                res.Add(PointX.getPointXByTwoPointXsAndY(t2.bottomLeft, t2.topLeft, distribution[i - 1]));
                             }
                         }
                     }

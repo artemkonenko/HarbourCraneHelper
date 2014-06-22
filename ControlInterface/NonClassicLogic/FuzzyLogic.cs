@@ -80,8 +80,8 @@ namespace NonClassicLogic
             }
 
             /* и тут появляется Янушка */
-            List<Point> polygon = speedGraph.getPolygon(speedDistribution);
-            Point p = Expert.centerOfMass(polygon);
+            List<PointX> polygon = speedGraph.getPolygon(speedDistribution);
+            PointX p = Expert.centerOfMass(polygon);
 
             return p.x;
         }

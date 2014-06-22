@@ -7,22 +7,22 @@ using System.Diagnostics;
 
 namespace NonClassicLogic
 {
-    class Point
+    class PointX
     {
         public double x, y;
 
-        public Point(double x, double y)
+        public PointX(double x, double y)
         {
             this.x = x;
             this.y = y;
         }
 
-        public static Point getPointByTwoPointsAndY(Point p1, Point p2, double y) // нахождение координаты точки на прямой по У
+        public static PointX getPointXByTwoPointXsAndY(PointX p1, PointX p2, double y) // нахождение координаты точки на прямой по У
         {
-            return new Point((y - p1.y) * (p2.x - p1.x) / (p2.y - p1.y) - p1.x, y);
+            return new PointX((y - p1.y) * (p2.x - p1.x) / (p2.y - p1.y) - p1.x, y);
         }
 
-        public static Point getIntersection(Point p11, Point p12, Point p21, Point p22) // нахождение точки пересечения прямых заданных точками
+        public static PointX getIntersection(PointX p11, PointX p12, PointX p21, PointX p22) // нахождение точки пересечения прямых заданных точками
         {
             double a1, b1, c1, a2, b2, c2;
             a1 = p12.y - p11.y;
@@ -35,7 +35,7 @@ namespace NonClassicLogic
             double z2 = a1 * b2 - a2 * b1;
             if (z1 != 0 && z2 != 0)
             {
-                return new Point(-(c1 * b2 - c2 * b1) / (a1 * b2 - a2 * b1), -(a1 * c2 - a2 * c1) / (a1 * b2 - a2 * b1));
+                return new PointX(-(c1 * b2 - c2 * b1) / (a1 * b2 - a2 * b1), -(a1 * c2 - a2 * c1) / (a1 * b2 - a2 * b1));
             }
             else
             {
@@ -46,10 +46,10 @@ namespace NonClassicLogic
 
     class Trapeze
     {
-        public Point bottomLeft, bottomRight;
-        public Point topLeft, topRight;
+        public PointX bottomLeft, bottomRight;
+        public PointX topLeft, topRight;
 
-        public Trapeze(Point bottomLeft, Point topLeft, Point topRight, Point bottomRight)
+        public Trapeze(PointX bottomLeft, PointX topLeft, PointX topRight, PointX bottomRight)
         {
             this.bottomLeft = bottomLeft;
             this.bottomRight = bottomRight;
@@ -74,10 +74,10 @@ namespace NonClassicLogic
         public Trapeze Cut(double level)        //level [0.0..1.0]
         {
             return new Trapeze(
-                new Point(this.bottomLeft, 0),
-                new Point(this.bottomLeft + (this.topLeft - this.bottomLeft) * level, level),
-                new Point(this.topRight + (this.bottomRight - this.topRight) * level, level),
-                new Point(this.bottomRight, 0)
+                new PointX(this.bottomLeft, 0),
+                new PointX(this.bottomLeft + (this.topLeft - this.bottomLeft) * level, level),
+                new PointX(this.topRight + (this.bottomRight - this.topRight) * level, level),
+                new PointX(this.bottomRight, 0)
                 );
         }
     }
