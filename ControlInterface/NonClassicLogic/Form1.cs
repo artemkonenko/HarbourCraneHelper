@@ -35,6 +35,11 @@ namespace NonClassicLogic
         {
             InitializeComponent();
 
+            topView = new Bitmap(topViewPicture.Size.Width, topViewPicture.Size.Height);
+            topViewGraphics = Graphics.FromImage(topView);
+            topViewPicture.Image = topView;
+
+            //drawCraneTopView((int)expert.getCranePos(world.getWind(), 40), (int)(world.getWind()));
         }
 
 
@@ -161,18 +166,21 @@ namespace NonClassicLogic
         }
 
         //отрисовка крана с люлькой для вида сверху(позиция люльки, смещение груза)
-        private void drawCraneTopView(int cranePosHorizontal = 0, int cranePosVertical = 0, int deltaWind = 0)
+        private void drawCraneTopView(int cranePosHorizontal = 0, int deltaWind = 0)
         {
+            int cranePosVertical = topView.Size.Height / 2 - 10;
+
+            //линии на которых крепится люлька
             topViewGraphics.DrawLine(new Pen(Color.Black, 3), new Point(INDENT, cranePosVertical), new Point(topView.Size.Width - INDENT, cranePosVertical));
-            topViewGraphics.DrawLine(new Pen(Color.Black, 3), new Point(INDENT, cranePosVertical + 30), new Point(topView.Size.Width - INDENT, cranePosVertical + 30));
+            topViewGraphics.DrawLine(new Pen(Color.Black, 3), new Point(INDENT, cranePosVertical + 20), new Point(topView.Size.Width - INDENT, cranePosVertical + 20));
 
             //отрисовка груза
-            topViewGraphics.FillRectangle(new SolidBrush(Color.Coral), INDENT + 15, cranePosVertical - 3 + deltaWind, 6, 36);
-            topViewGraphics.DrawRectangle(new Pen(Color.Black, 1), INDENT + 15, cranePosVertical - 3 + deltaWind, 6, 36);
+            topViewGraphics.FillRectangle(new SolidBrush(Color.Coral), cranePosHorizontal / 3 + 15 + deltaWind, cranePosVertical - 6, 6, 36);
+            topViewGraphics.DrawRectangle(new Pen(Color.Black, 1), cranePosHorizontal / 3 + 15 + deltaWind, cranePosVertical - 6, 6, 36);
 
             //отрисовка люльки крана
-            topViewGraphics.FillRectangle(new SolidBrush(Color.Gray), INDENT + cranePosHorizontal, cranePosVertical, 30, 30);
-            topViewGraphics.DrawRectangle(new Pen(Color.Black, 3), INDENT + cranePosHorizontal, cranePosVertical, 30, 30);
+            topViewGraphics.FillRectangle(new SolidBrush(Color.Gray), cranePosHorizontal, cranePosVertical, 20, 20);
+            topViewGraphics.DrawRectangle(new Pen(Color.Black, 3), cranePosHorizontal, cranePosVertical, 20, 20);
         }
 
         //функция старта, для потока, который вызывается по кнопке Start
@@ -199,7 +207,7 @@ namespace NonClassicLogic
                     Invoke(drawSideway, distance);
 
                     // ----
-                    
+
                     //инициализация вида сверху, отрисовка через делегат
                     topView = new Bitmap(topViewPicture.Size.Width, topViewPicture.Size.Height);
                     topViewGraphics = Graphics.FromImage(topView);
@@ -209,11 +217,11 @@ namespace NonClassicLogic
                     //    !!!ACHTUNG!!!
                     Invoke(drawTopview, distance);
 
-                    Thread.Sleep(50);
+                    Thread.Sleep(100);
                 }
             }
-            catch (System.ObjectDisposedException e) {}
-            catch (System.Threading.ThreadInterruptedException e) {}
+            catch (System.ObjectDisposedException e) { }
+            catch (System.Threading.ThreadInterruptedException e) { }
         }
 
 
@@ -230,7 +238,6 @@ namespace NonClassicLogic
         private void stopButton_Click(object sender, EventArgs e)
         {
             if ((graphicsThread != null) || (graphicsThread.ThreadState != System.Threading.ThreadState.Stopped))
-                //graphicsThread.Suspend();
                 graphicsThread.Interrupt();
         }
         ///////////////////////делагаты для отрисовки и изменения элементов из других потоков////////////////
@@ -265,7 +272,7 @@ namespace NonClassicLogic
         private void drawTopView(double distance)
         {
             drawShipTopView();
-            drawCraneTopView((int)expert.getCranePos(world.getWind(), distance), (int)distance, (int)(world.getWind()));
+            drawCraneTopView((int)expert.getCranePos(world.getWind(), distance), (int)(world.getWind()));
             topViewPicture.Refresh();
         }
 
