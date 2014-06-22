@@ -12,8 +12,8 @@ namespace NonClassicLogic
         double waveState = 0;
 
 	    long tick = 0;
-	    double maxStrength = 1;
-        double maxHeight = 20;
+	    double maxStrength = 15; // м/c
+        double maxHeight = 8;    // м
 
         public double getWind()
         {

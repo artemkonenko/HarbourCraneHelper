@@ -236,10 +236,12 @@ namespace NonClassicLogic
 
         private void startButton_Click(object sender, EventArgs e)
         {
-            for ( int i=1; i < 200; ++i  )
+            for (int i = 1; i < 200; ++i)
             {
-                world.setTick((new Random()).Next() % 10);
-                double distance = (new Random()).Next() % 30;
+                cargoSpeed.Text = i.ToString();
+
+                world.setTick(i);
+                double distance = 40;
 
                 windSpeed.Text = world.getWind().ToString();
                 waveHeight.Text = world.getWave().ToString();
@@ -261,27 +263,10 @@ namespace NonClassicLogic
                 topViewPicture.Image = topView;
 
                 drawShipTopView();
-                drawCraneTopView((new Random()).Next() % 20, (new Random()).Next() % 20, (int)(world.getWind()));
+                drawCraneTopView((int)expert.getCranePos(world.getWind(), distance), (int)distance, (int)(world.getWind()));
                 topViewPicture.Refresh();
-            /*
-                windSpeed.Text = w.ToString();
-                
-                //drawShipSideway( w );
-                drawShipTopView();
-                //отрисовка крана
-                drawCraneTopView(w, (new Random()).Next() % 200, (new Random()).Next() % 20);
 
-                if (t)
-                    ++w;
-                else
-                    --w;
-
-                if (i % 24 == 0)
-                    t = !t;
-            
-                //
-             */
-                //Thread.Sleep(1);
+                Thread.Sleep(50);
             }
         }
     }
