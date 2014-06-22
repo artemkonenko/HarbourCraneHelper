@@ -164,13 +164,20 @@ namespace NonClassicLogic
         {
             int cranePosVertical = topView.Size.Height / 2 - 10;
             cranePosHorizontal += topView.Size.Width / 2;
-            //линии на которых крепится люлька
-            topViewGraphics.DrawLine(new Pen(Color.Black, 3), new Point(INDENT, cranePosVertical), new Point(topView.Size.Width - INDENT, cranePosVertical));
-            topViewGraphics.DrawLine(new Pen(Color.Black, 3), new Point(INDENT, cranePosVertical + 20), new Point(topView.Size.Width - INDENT, cranePosVertical + 20));
 
             //отрисовка груза
             topViewGraphics.FillRectangle(new SolidBrush(Color.Coral), cranePosHorizontal - 3 + deltaCargo, cranePosVertical - 6, 6, 36);
             topViewGraphics.DrawRectangle(new Pen(Color.Black, 1), cranePosHorizontal - 3 + deltaCargo, cranePosVertical - 6, 6, 36);
+
+            //отрисовка троссов от люльки до груза
+            topViewGraphics.DrawLine(new Pen(Color.Black, 2), new Point(cranePosHorizontal - 10, cranePosVertical), new Point(cranePosHorizontal - 3 + deltaCargo, cranePosVertical - 6));
+            topViewGraphics.DrawLine(new Pen(Color.Black, 2), new Point(cranePosHorizontal + 10, cranePosVertical), new Point(cranePosHorizontal + 3 + deltaCargo, cranePosVertical - 6));
+            topViewGraphics.DrawLine(new Pen(Color.Black, 2), new Point(cranePosHorizontal + 10, cranePosVertical + 20), new Point(cranePosHorizontal + 3 + deltaCargo, cranePosVertical + 30));
+            topViewGraphics.DrawLine(new Pen(Color.Black, 2), new Point(cranePosHorizontal - 10, cranePosVertical + 20), new Point(cranePosHorizontal - 3 + deltaCargo, cranePosVertical + 30));
+
+            //линии на которых крепится люлька
+            topViewGraphics.DrawLine(new Pen(Color.Black, 3), new Point(INDENT, cranePosVertical), new Point(topView.Size.Width - INDENT, cranePosVertical));
+            topViewGraphics.DrawLine(new Pen(Color.Black, 3), new Point(INDENT, cranePosVertical + 20), new Point(topView.Size.Width - INDENT, cranePosVertical + 20));
 
             //отрисовка люльки крана
             topViewGraphics.FillRectangle(new SolidBrush(Color.Gray), cranePosHorizontal - 10, cranePosVertical, 20, 20);
