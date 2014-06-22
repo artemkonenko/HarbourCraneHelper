@@ -49,17 +49,16 @@ namespace NonClassicLogic
         //отрисовка корабля в виде сбоку, высота волны входной параметр
         private void drawShipSideway(int waveHeight = 0)
         {
-            if (waveHeight < 0)
-                waveHeight = 1;
+
             // Create points that define polygon.
-            Point point1 = new Point(0 + INDENT, sideView.Size.Height - 40 - waveHeight);
-            Point point2 = new Point(0 + 40 + INDENT, sideView.Size.Height - waveHeight);
-            Point point3 = new Point(sideView.Size.Width - 40 - INDENT, sideView.Size.Height - waveHeight);
-            Point point4 = new Point(sideView.Size.Width - INDENT, sideView.Size.Height - 40 - waveHeight);
-            Point point5 = new Point(sideView.Size.Width - 40 - INDENT, sideView.Size.Height - 40 - waveHeight);
-            Point point6 = new Point(sideView.Size.Width - 40 - INDENT, sideView.Size.Height - 80 - waveHeight);
-            Point point7 = new Point(sideView.Size.Width - 80 - INDENT, sideView.Size.Height - 80 - waveHeight);
-            Point point8 = new Point(sideView.Size.Width - 80 - INDENT, sideView.Size.Height - 40 - waveHeight);
+            Point point1 = new Point(0 + INDENT, sideView.Size.Height - 60 - waveHeight);
+            Point point2 = new Point(0 + 40 + INDENT, sideView.Size.Height - waveHeight - 20);
+            Point point3 = new Point(sideView.Size.Width - 40 - INDENT, sideView.Size.Height - waveHeight - 20);
+            Point point4 = new Point(sideView.Size.Width - INDENT, sideView.Size.Height - 60 - waveHeight);
+            Point point5 = new Point(sideView.Size.Width - 40 - INDENT, sideView.Size.Height - 60 - waveHeight);
+            Point point6 = new Point(sideView.Size.Width - 40 - INDENT, sideView.Size.Height - 100 - waveHeight);
+            Point point7 = new Point(sideView.Size.Width - 80 - INDENT, sideView.Size.Height - 100 - waveHeight);
+            Point point8 = new Point(sideView.Size.Width - 80 - INDENT, sideView.Size.Height - 60 - waveHeight);
             Point[] curvePoints =
             {
                  point1,
@@ -80,8 +79,6 @@ namespace NonClassicLogic
         //отрисовка волны
         private void drawWaveSideway(int waveHeight = 0)
         {
-            if (waveHeight < 0)
-                waveHeight = 1;
             Point[] curvePoints = new Point[10];
             int step = sideView.Size.Width / 4;
             int highPoints = 0;
@@ -89,7 +86,7 @@ namespace NonClassicLogic
             for (int i = 1; i < 10; i += 2)
             {
                 curvePoints[i - 1] = new Point(lowPoints, sideView.Size.Height);
-                curvePoints[i] = new Point(highPoints, sideView.Size.Height - waveHeight);
+                curvePoints[i] = new Point(highPoints, sideView.Size.Height - waveHeight - 20);
                 highPoints += step;
                 lowPoints += step;
             }
