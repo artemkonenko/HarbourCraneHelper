@@ -45,18 +45,12 @@ namespace NonClassicLogic
 
         ////////////////////////////SIDEWAY////////////////////////////////
 
-        //отрисовка всего вида сбоку по входным параметрам
-        private void drawSideView(int waveHeight = 0, int cranePos = 0, int deltaWind = 0, int distance = 15)
-        {
-            drawWaveSideway(waveHeight);
-            drawShipSideway(waveHeight);
-            drawCraneWithCargoSideWay(cranePos, deltaWind, distance);
-        }
-
 
         //отрисовка корабля в виде сбоку, высота волны входной параметр
         private void drawShipSideway(int waveHeight = 0)
         {
+            if (waveHeight < 0)
+                waveHeight = 1;
             // Create points that define polygon.
             Point point1 = new Point(0 + INDENT, sideView.Size.Height - 40 - waveHeight);
             Point point2 = new Point(0 + 40 + INDENT, sideView.Size.Height - waveHeight);
@@ -86,6 +80,8 @@ namespace NonClassicLogic
         //отрисовка волны
         private void drawWaveSideway(int waveHeight = 0)
         {
+            if (waveHeight < 0)
+                waveHeight = 1;
             Point[] curvePoints = new Point[10];
             int step = sideView.Size.Width / 4;
             int highPoints = 0;
@@ -101,13 +97,14 @@ namespace NonClassicLogic
         }
 
         //отрисовка люльки крана и груза (позиция люльки крана, смещение груза из-за ветра, расстояние от люльки до груза, по умолчанию 5 метров)
-        private void drawCraneWithCargoSideWay(int cranePos = 0, int deltaWind = 0, int distance = 15)
+        private void drawCraneWithCargoSideWay(int distance = 15)
         {
+            int cranePos = sideView.Size.Width / 2 - 30;
             //отрисовка люльки
             Point point1 = new Point(cranePos, 0);
-            Point point2 = new Point(cranePos + 80, 0);
-            Point point3 = new Point(cranePos + 80, 40);
-            Point point4 = new Point(cranePos, 40);
+            Point point2 = new Point(cranePos + 40, 0);
+            Point point3 = new Point(cranePos + 40, 20);
+            Point point4 = new Point(cranePos, 20);
             Point[] curvePoints = 
             {
                 point1,
@@ -115,15 +112,14 @@ namespace NonClassicLogic
                 point3,
                 point4
             };
-            sideViewGraphics.FillPolygon(new SolidBrush(Color.White), curvePoints);
+            sideViewGraphics.FillPolygon(new SolidBrush(Color.Gray), curvePoints);
             sideViewGraphics.DrawPolygon(new Pen(Color.Black, 3), curvePoints);
-            Invalidate();
 
             //отрисовка груза (длина = 36, высота = 9, точка соединения = 18)
-            Point p1 = new Point(cranePos + deltaWind + 40 - 18, 40 + distance);
-            Point p2 = new Point(cranePos + deltaWind + 40 - 18, 40 + 9 + distance);
-            Point p3 = new Point(cranePos + deltaWind + 40 + 18, 40 + 9 + distance);
-            Point p4 = new Point(cranePos + deltaWind + 40 + 18, 40 + distance);
+            Point p1 = new Point(cranePos + 20 - 18, 10 + distance);
+            Point p2 = new Point(cranePos + 20 - 18, 10 + 9 + distance);
+            Point p3 = new Point(cranePos + 20 + 18, 10 + 9 + distance);
+            Point p4 = new Point(cranePos + 20 + 18, 10 + distance);
             Point[] cargoPoints = 
             {
                 p1,
@@ -131,11 +127,11 @@ namespace NonClassicLogic
                 p3,
                 p4
             };
-            sideViewGraphics.FillPolygon(new SolidBrush(Color.White), cargoPoints);
-            sideViewGraphics.DrawPolygon(new Pen(Color.Black, 3), cargoPoints);
+            sideViewGraphics.FillPolygon(new SolidBrush(Color.Coral), cargoPoints);
+            sideViewGraphics.DrawPolygon(new Pen(Color.Black, 1), cargoPoints);
 
             //отрисовка каната от люльки до груза
-            sideViewGraphics.DrawLine(new Pen(Color.Black, 3), new Point(cranePos + 40, 40), new Point(cranePos + 40 + deltaWind, 40 + distance));
+            sideViewGraphics.DrawLine(new Pen(Color.Black, 3), new Point(cranePos + 20, 20), new Point(cranePos + 20, 10 + distance));
         }
 
 
@@ -166,7 +162,7 @@ namespace NonClassicLogic
         }
 
         //отрисовка крана с люлькой для вида сверху(позиция люльки, смещение груза)
-        private void drawCraneTopView(int cranePosHorizontal = 0, int deltaWind = 0)
+        private void drawCraneTopView(int cranePosHorizontal = 0, int deltaCargo = 0)
         {
             int cranePosVertical = topView.Size.Height / 2 - 10;
 
@@ -175,8 +171,8 @@ namespace NonClassicLogic
             topViewGraphics.DrawLine(new Pen(Color.Black, 3), new Point(INDENT, cranePosVertical + 20), new Point(topView.Size.Width - INDENT, cranePosVertical + 20));
 
             //отрисовка груза
-            topViewGraphics.FillRectangle(new SolidBrush(Color.Coral), cranePosHorizontal + 15 + deltaWind, cranePosVertical - 6, 6, 36);
-            topViewGraphics.DrawRectangle(new Pen(Color.Black, 1), cranePosHorizontal + 15 + deltaWind, cranePosVertical - 6, 6, 36);
+            topViewGraphics.FillRectangle(new SolidBrush(Color.Coral), cranePosHorizontal + 15 + deltaCargo, cranePosVertical - 6, 6, 36);
+            topViewGraphics.DrawRectangle(new Pen(Color.Black, 1), cranePosHorizontal + 15 + deltaCargo, cranePosVertical - 6, 6, 36);
 
             //отрисовка люльки крана
             topViewGraphics.FillRectangle(new SolidBrush(Color.Gray), cranePosHorizontal, cranePosVertical, 20, 20);
@@ -262,7 +258,7 @@ namespace NonClassicLogic
             //отрисовка корабля
             drawShipSideway((int)(world.getWave()));
             //отрисовка люльки крана и груза
-            drawCraneWithCargoSideWay((int)expert.getCranePos(world.getWind(), distance), (int)(world.getWind()), (int)distance);
+            drawCraneWithCargoSideWay((int)distance);
             //обновление изображения
             sidewayViewPicture.Refresh();
         }
