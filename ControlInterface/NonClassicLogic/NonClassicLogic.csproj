@@ -66,6 +66,9 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="FuzzyGraph.cs" />
+    <Compile Include="FuzzyLogic.cs" />
+    <Compile Include="Geometry.cs" />
     <Compile Include="OuterWorld.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
