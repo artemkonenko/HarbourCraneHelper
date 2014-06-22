@@ -41,7 +41,7 @@ namespace NonClassicLogic
         public double cargoHorizontalMove()
         {
             double alpha = Math.Atan(windStrenght() / (cargoWeight * 10));
-            return getRobeLenght() * Math.Sin(alpha);
+            return Math.Sign(getWind()) * getRobeLenght() * Math.Sin(alpha);
         }
 
         public double cargoVerticalMove()
@@ -82,6 +82,11 @@ namespace NonClassicLogic
         public double getDistance()
         {
             return craneHeight - cargoVerticalMove() - getRobeLenght();
+        }
+
+        public void fuckOut() // Отпустить груз на палубу.
+        {
+            // todo: check, that we don't crash our niggas.
         }
     }
 }
