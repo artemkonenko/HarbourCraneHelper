@@ -27,53 +27,16 @@ namespace NonClassicLogic
         static Bitmap topView;
         //графика вида сверху
         static Graphics topViewGraphics;
-
+        private Thread graphicsThread = null;
         OuterWorld world = new OuterWorld();
         Expert expert = new Expert();
 
         public Form1()
         {
             InitializeComponent();
-            //инициализация вида сбоку
-            sideView = new Bitmap(sidewayViewPicture.Size.Width, sidewayViewPicture.Size.Height);
-            sideViewGraphics = Graphics.FromImage(sideView);
-            sidewayViewPicture.Image = sideView;
-            //инициализация вида сверху
-            topView = new Bitmap(topViewPicture.Size.Width, topViewPicture.Size.Height);
-            topViewGraphics = Graphics.FromImage(topView);
-            topViewPicture.Image = topView;
-            
-            /*
-            //тесты...
-            drawWaveSideway(testWave);
-            //отрисовка корабля
-            drawShipSideway(testWave);
-            //отрисовка люльки крана и груза
-            drawCraneWithCargoSideWay(sideView.Size.Width/2 - 40, -60, 30);
-
-            
-            //отрисовка корабля в виде сверху
-            drawShipTopView();
-            //отрисовка крана
-            drawCraneTopView(0, 100, -20);
-            */
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
 
         }
 
-        private void sidewayViewPicture_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-        
 
         ////////////////////////////SIDEWAY////////////////////////////////
 
@@ -113,8 +76,6 @@ namespace NonClassicLogic
             sideViewGraphics.FillPolygon(new SolidBrush(Color.White), curvePoints);
             //отрисовать корабль
             sideViewGraphics.DrawPolygon(new Pen(Color.Black, 3), curvePoints);
-            //обновить изображение
-            Invalidate();
         }
 
         //отрисовка волны
@@ -124,15 +85,14 @@ namespace NonClassicLogic
             int step = sideView.Size.Width / 4;
             int highPoints = 0;
             int lowPoints = 0;
-            for (int i = 1; i < 10; i += 2) 
-            { 
+            for (int i = 1; i < 10; i += 2)
+            {
                 curvePoints[i - 1] = new Point(lowPoints, sideView.Size.Height);
                 curvePoints[i] = new Point(highPoints, sideView.Size.Height - waveHeight);
                 highPoints += step;
                 lowPoints += step;
             }
             sideViewGraphics.DrawCurve(new Pen(Color.Blue, 3), curvePoints);
-            Invalidate();
         }
 
         //отрисовка люльки крана и груза (позиция люльки крана, смещение груза из-за ветра, расстояние от люльки до груза, по умолчанию 5 метров)
@@ -157,8 +117,8 @@ namespace NonClassicLogic
             //отрисовка груза (длина = 36, высота = 9, точка соединения = 18)
             Point p1 = new Point(cranePos + deltaWind + 40 - 18, 40 + distance);
             Point p2 = new Point(cranePos + deltaWind + 40 - 18, 40 + 9 + distance);
-            Point p3 = new Point(cranePos + deltaWind  + 40 + 18, 40 + 9 + distance);
-            Point p4 = new Point(cranePos + deltaWind  + 40 + 18, 40 + distance);
+            Point p3 = new Point(cranePos + deltaWind + 40 + 18, 40 + 9 + distance);
+            Point p4 = new Point(cranePos + deltaWind + 40 + 18, 40 + distance);
             Point[] cargoPoints = 
             {
                 p1,
@@ -168,7 +128,6 @@ namespace NonClassicLogic
             };
             sideViewGraphics.FillPolygon(new SolidBrush(Color.White), cargoPoints);
             sideViewGraphics.DrawPolygon(new Pen(Color.Black, 3), cargoPoints);
-            Invalidate();
 
             //отрисовка каната от люльки до груза
             sideViewGraphics.DrawLine(new Pen(Color.Black, 3), new Point(cranePos + 40, 40), new Point(cranePos + 40 + deltaWind, 40 + distance));
@@ -216,7 +175,46 @@ namespace NonClassicLogic
             topViewGraphics.DrawRectangle(new Pen(Color.Black, 3), INDENT + cranePosHorizontal, cranePosVertical, 30, 30);
         }
 
+        //функция старта, для потока, который вызывается по кнопке Start
+        //и начинает рисовать в отдельном потоке
+        private void startGraphics()
+        {
+            try
+            {
+                for (int i = 1; i < 200; ++i)
+                {
+                    world.setTick(i);
+                    double distance = 40;
+                    //заполнение TextBox'ов с параметрами
+                    getParametersDelegate getParams = new getParametersDelegate(getParameters);
+                    Invoke(getParams, i);
 
+                    //вид сбоку, инициализация, отрисовка через делегат
+                    sideView = new Bitmap(sidewayViewPicture.Size.Width, sidewayViewPicture.Size.Height);
+                    sideViewGraphics = Graphics.FromImage(sideView);
+                    sidewayViewPicture.Image = sideView;
+
+                    drawSideWayDelegate drawSideway = new drawSideWayDelegate(drawSideWay);
+                    //    !!!ACHTUNG!!!
+                    Invoke(drawSideway, distance);
+
+                    // ----
+                    
+                    //инициализация вида сверху, отрисовка через делегат
+                    topView = new Bitmap(topViewPicture.Size.Width, topViewPicture.Size.Height);
+                    topViewGraphics = Graphics.FromImage(topView);
+                    topViewPicture.Image = topView;
+
+                    drawTopViewDelegate drawTopview = new drawTopViewDelegate(drawTopView);
+                    //    !!!ACHTUNG!!!
+                    Invoke(drawTopview, distance);
+
+                    Thread.Sleep(50);
+                }
+            }
+            catch (System.ObjectDisposedException e) {}
+            catch (System.Threading.ThreadInterruptedException e) {}
+        }
 
 
         private void label3_Click(object sender, EventArgs e)
@@ -236,38 +234,57 @@ namespace NonClassicLogic
 
         private void startButton_Click(object sender, EventArgs e)
         {
-            for (int i = 1; i < 200; ++i)
+            if ((graphicsThread == null) || (graphicsThread.ThreadState == System.Threading.ThreadState.Stopped))
             {
-                cargoSpeed.Text = i.ToString();
-
-                world.setTick(i);
-                double distance = 40;
-
-                windSpeed.Text = world.getWind().ToString();
-                waveHeight.Text = world.getWave().ToString();
-
-                sideView = new Bitmap(sidewayViewPicture.Size.Width, sidewayViewPicture.Size.Height);
-                sideViewGraphics = Graphics.FromImage(sideView);
-                sidewayViewPicture.Image = sideView;
-
-                drawWaveSideway((int)(world.getWave()));
-                //отрисовка корабля
-                drawShipSideway((int)(world.getWave()));
-                //отрисовка люльки крана и груза
-                drawCraneWithCargoSideWay((int)expert.getCranePos(world.getWind(), distance), (int)(world.getWind()), (int)distance);
-                sidewayViewPicture.Refresh();
-                // ----
-
-                topView = new Bitmap(topViewPicture.Size.Width, topViewPicture.Size.Height);
-                topViewGraphics = Graphics.FromImage(topView);
-                topViewPicture.Image = topView;
-
-                drawShipTopView();
-                drawCraneTopView((int)expert.getCranePos(world.getWind(), distance), (int)distance, (int)(world.getWind()));
-                topViewPicture.Refresh();
-
-                Thread.Sleep(50);
+                graphicsThread = new Thread(startGraphics);
+                graphicsThread.IsBackground = true;
+                graphicsThread.Start();
             }
+            else
+                graphicsThread.Resume();
         }
+
+        private void stopButton_Click(object sender, EventArgs e)
+        {
+            if ((graphicsThread != null) || (graphicsThread.ThreadState != System.Threading.ThreadState.Stopped))
+                //graphicsThread.Suspend();
+                graphicsThread.Interrupt();
+        }
+        ///////////////////////делагаты для отрисовки и изменения элементов из других потоков////////////////
+
+        //обновляет значения высоты волны, скорости и тд в TextBox'ах
+        private delegate void getParametersDelegate(int i);
+        private void getParameters(int i)
+        {
+            cargoSpeed.Text = i.ToString();
+            windSpeed.Text = world.getWind().ToString();
+            waveHeight.Text = world.getWave().ToString();
+            windSpeed.Refresh();
+            waveHeight.Refresh();
+            cargoSpeed.Refresh();
+        }
+
+        //отрисовка вида сбоку через делегат
+        private delegate void drawSideWayDelegate(double distance);
+        private void drawSideWay(double distance)
+        {
+            drawWaveSideway((int)(world.getWave()));
+            //отрисовка корабля
+            drawShipSideway((int)(world.getWave()));
+            //отрисовка люльки крана и груза
+            drawCraneWithCargoSideWay((int)expert.getCranePos(world.getWind(), distance), (int)(world.getWind()), (int)distance);
+            //обновление изображения
+            sidewayViewPicture.Refresh();
+        }
+
+        //отрисовка вида сверху через делегат
+        private delegate void drawTopViewDelegate(double distance);
+        private void drawTopView(double distance)
+        {
+            drawShipTopView();
+            drawCraneTopView((int)expert.getCranePos(world.getWind(), distance), (int)distance, (int)(world.getWind()));
+            topViewPicture.Refresh();
+        }
+
     }
 }

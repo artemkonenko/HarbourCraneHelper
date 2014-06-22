@@ -62,6 +62,7 @@
             this.stopButton.TabIndex = 1;
             this.stopButton.Text = "Stop";
             this.stopButton.UseVisualStyleBackColor = true;
+            this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
             // 
             // topViewPicture
             // 
@@ -79,7 +80,6 @@
             this.sidewayViewPicture.Size = new System.Drawing.Size(470, 242);
             this.sidewayViewPicture.TabIndex = 3;
             this.sidewayViewPicture.TabStop = false;
-            this.sidewayViewPicture.Click += new System.EventHandler(this.sidewayViewPicture_Click);
             // 
             // label1
             // 
@@ -98,7 +98,6 @@
             this.label2.Size = new System.Drawing.Size(58, 13);
             this.label2.TabIndex = 5;
             this.label2.Text = "Вид сбоку";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // label3
             // 
@@ -172,7 +171,6 @@
             this.Controls.Add(this.startButton);
             this.Name = "Form1";
             this.Text = "Повелитель кранов 0.01";
-            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.topViewPicture)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sidewayViewPicture)).EndInit();
             this.ResumeLayout(false);
