@@ -86,8 +86,8 @@ namespace NonClassicLogic
             int lowPoints = 0;
             for (int i = 1; i < 10; i += 2)
             {
-                curvePoints[i - 1] = new Point(lowPoints, sideView.Size.Height);
-                curvePoints[i] = new Point(highPoints, sideView.Size.Height - waveHeight - 20);
+                curvePoints[i - 1] = new Point(lowPoints + waveHeight/2, sideView.Size.Height);
+                curvePoints[i] = new Point(highPoints, sideView.Size.Height - waveHeight - 30 - 20);
                 highPoints += step;
                 lowPoints += step;
             }
@@ -253,9 +253,10 @@ namespace NonClassicLogic
         private delegate void drawSideWayDelegate(double distance);
         private void drawSideWay(double distance)
         {
-            drawWaveSideway((int)(world.getWave()));
             //отрисовка корабля
             drawShipSideway((int)(world.getWave()));
+
+            drawWaveSideway((int)(world.getWave()));
             //отрисовка люльки крана и груза
             drawCraneWithCargoSideWay((int)world.getRobeLenght());
             //обновление изображения

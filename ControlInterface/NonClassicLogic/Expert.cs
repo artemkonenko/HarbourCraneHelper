@@ -55,7 +55,6 @@ namespace NonClassicLogic
         
 
         // -----
-
         public double getCranePos( double cargoHorizontalMove, double lenght )
         {
             return lenght * cargoHorizontalMove;
@@ -63,7 +62,7 @@ namespace NonClassicLogic
 
         public double getMaxCargoSpeed( double lenght, double distance )
         {
-            return distance - lenght > 2 ? 2 : distance - lenght;
+            return distance - lenght > 5 ? 5 : distance - lenght;
         }
     }
 }
