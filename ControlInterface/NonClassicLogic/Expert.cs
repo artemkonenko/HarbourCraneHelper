@@ -45,14 +45,18 @@ namespace NonClassicLogic
         
 
         // -----
-        public double getCranePos( double cargoHorizontalMove )
+        public double getCranePos( double cargoHorizontalMove, double distance ) // Сопротивление ветру
         {
-            return -1 * cargoHorizontalMove;
+            FuzzyLogic logic = new FuzzyLogic();
+            return logic.getDeviationCompensation(cargoHorizontalMove, distance); //ветер
+            //return -1 * cargoHorizontalMove;
         }
 
-        public double getMaxCargoSpeed( double lenght, double distance )
+        public double getMaxCargoSpeed( double cargoHorizontalMove, double distance )
         {
-            return distance - lenght > 5 ? 5 : distance - lenght;
+            FuzzyLogic logic = new FuzzyLogic();
+            return logic.getHeightCompensation(cargoHorizontalMove, distance); //спуск
+            //return distance - lenght > 5 ? 5 : distance - lenght;
         }
 
         public bool isTimeToRelease( double distance )

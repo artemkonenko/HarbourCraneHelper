@@ -288,7 +288,7 @@ namespace NonClassicLogic
         private void drawTopView(double distance)
         {
             drawShipTopView();
-            drawCraneTopView((int)expert.getCranePos(world.cargoHorizontalMove()), (int)(world.cargoHorizontalMove()));
+            drawCraneTopView((int)expert.getCranePos(world.cargoHorizontalMove(), world.getDistance()), (int)(world.cargoHorizontalMove()));
             topViewPicture.Refresh();
         }
 

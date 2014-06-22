@@ -16,7 +16,7 @@ namespace NonClassicLogic
         double maxHeight = 8;    // м
 
         double cargoSquare = 31.589472; // м^2
-        double cargoWeight = 30400;      // кг
+        double cargoWeight = 30.400;      // кг
 
         double robeLenght = 0; // м
 
@@ -91,6 +91,12 @@ namespace NonClassicLogic
             {
                 throw new Exception("Мы продолбали груз.");
             }
+        }
+
+        // ---
+        public double getCraneHeight()
+        {
+            return craneHeight;
         }
     }
 }
