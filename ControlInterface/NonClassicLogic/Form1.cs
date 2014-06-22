@@ -175,8 +175,8 @@ namespace NonClassicLogic
             topViewGraphics.DrawLine(new Pen(Color.Black, 3), new Point(INDENT, cranePosVertical + 20), new Point(topView.Size.Width - INDENT, cranePosVertical + 20));
 
             //отрисовка груза
-            topViewGraphics.FillRectangle(new SolidBrush(Color.Coral), cranePosHorizontal / 3 + 15 + deltaWind, cranePosVertical - 6, 6, 36);
-            topViewGraphics.DrawRectangle(new Pen(Color.Black, 1), cranePosHorizontal / 3 + 15 + deltaWind, cranePosVertical - 6, 6, 36);
+            topViewGraphics.FillRectangle(new SolidBrush(Color.Coral), cranePosHorizontal + 15 + deltaWind, cranePosVertical - 6, 6, 36);
+            topViewGraphics.DrawRectangle(new Pen(Color.Black, 1), cranePosHorizontal + 15 + deltaWind, cranePosVertical - 6, 6, 36);
 
             //отрисовка люльки крана
             topViewGraphics.FillRectangle(new SolidBrush(Color.Gray), cranePosHorizontal, cranePosVertical, 20, 20);
@@ -217,7 +217,7 @@ namespace NonClassicLogic
                     //    !!!ACHTUNG!!!
                     Invoke(drawTopview, distance);
 
-                    Thread.Sleep(100);
+                    Thread.Sleep(1000);
                 }
             }
             catch (System.ObjectDisposedException e) { }
