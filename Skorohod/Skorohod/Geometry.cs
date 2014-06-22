@@ -31,7 +31,7 @@ namespace Skorohod
             this.topRight = topRight;
         }
 
-        public Trapeze Cut(double level)
+        public Trapeze Cut(double level)        //level [0.0..1.0]
         {            
             return new Trapeze(
                 new Point(this.bottomLeft, 0),
