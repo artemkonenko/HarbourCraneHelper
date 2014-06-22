@@ -22,3 +22,7 @@
 
 # ide files
 .idea/
+*.suo
+
+# caches
+*.cache
