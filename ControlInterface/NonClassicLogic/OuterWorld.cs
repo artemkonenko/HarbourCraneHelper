@@ -30,7 +30,7 @@ namespace NonClassicLogic
         // ---
         public double getWind()
         {
-            return maxStrength * Math.Cos(tick);// -maxStrength * Math.Tan(tick / 2);
+            return maxStrength * Math.Cos(Math.Sqrt(tick));// -maxStrength * Math.Tan(tick / 2);
         }
 
         public double windStrenght()
@@ -53,7 +53,7 @@ namespace NonClassicLogic
         // ---
         public double getWave()
         {
-            return maxHeight * Math.Sin(tick);// -maxHeight * Math.Cos(tick / 2);
+            return maxHeight * Math.Sin(Math.Sqrt(tick));// -maxHeight * Math.Cos(tick / 2);
         }
 
         // ---
