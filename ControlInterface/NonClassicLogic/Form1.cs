@@ -270,12 +270,14 @@ namespace NonClassicLogic
             iteration.Text = i.ToString();
             windSpeed.Text = world.getWind().ToString();
             waveHeight.Text = world.getWave().ToString();
-            distanceText.Text = world.getDistance().ToString(); 
+            distanceText.Text = world.getDistance().ToString();
+            deviation.Text = world.cargoHorizontalMove().ToString();
 
             windSpeed.Refresh();
             waveHeight.Refresh();
             iteration.Refresh();
             distanceText.Refresh();
+            deviation.Refresh();
         }
 
         //отрисовка вида сбоку через делегат
