@@ -42,7 +42,8 @@ namespace NonClassicLogic
             topView = new Bitmap(topViewPicture.Size.Width, topViewPicture.Size.Height);
             topViewGraphics = Graphics.FromImage(topView);
             topViewPicture.Image = topView;
-
+            
+            /*
             //тесты...
             drawWaveSideway(testWave);
             //отрисовка корабля
@@ -55,6 +56,7 @@ namespace NonClassicLogic
             drawShipTopView();
             //отрисовка крана
             drawCraneTopView(0, 100, -20);
+            */
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -251,7 +253,7 @@ namespace NonClassicLogic
                 drawShipSideway((int)(world.getWave()));
                 //отрисовка люльки крана и груза
                 drawCraneWithCargoSideWay((int)expert.getCranePos(world.getWind(), distance), (int)(world.getWind()), (int)distance);
-            
+                sidewayViewPicture.Refresh();
                 // ----
 
                 topView = new Bitmap(topViewPicture.Size.Width, topViewPicture.Size.Height);
@@ -260,7 +262,7 @@ namespace NonClassicLogic
 
                 drawShipTopView();
                 drawCraneTopView((new Random()).Next() % 20, (new Random()).Next() % 20, (int)(world.getWind()));
-
+                topViewPicture.Refresh();
             /*
                 windSpeed.Text = w.ToString();
                 
