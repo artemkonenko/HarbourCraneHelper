@@ -42,7 +42,7 @@ namespace Skorohod
                            };
 
             /* Параметры */
-            double d = 3, h = 2.5;
+            double d = 4.5, h = 2.5;
             FuzzyDistribution deviationDistribution = deviationGraph.getFuzzyDistribution(d);
             FuzzyDistribution heightDistribution = heightGraph.getFuzzyDistribution(h);
 
@@ -52,12 +52,13 @@ namespace Skorohod
             {
                 for (int j = 0; j < heightDistribution.Count; ++j )
                 {
-                    speedDistribution[rules[i, j]] = 
-                        speedDistribution[rules[i, j]] + Math.Min(deviationDistribution[i], heightDistribution[j]);
+                    speedDistribution[rules[i, j]] =
+                        Math.Max(speedDistribution[rules[i, j]], Math.Min(deviationDistribution[i], heightDistribution[j]));
                 }
             }
             
             /* и тут появляется Янушка */
+            
             
             System.Console.ReadLine();
         }
