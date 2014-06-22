@@ -39,7 +39,11 @@ namespace NonClassicLogic
             topView = new Bitmap(topViewPicture.Size.Width, topViewPicture.Size.Height);
             topViewGraphics = Graphics.FromImage(topView);
             topViewPicture.Image = topView;
+            sideView = new Bitmap(sidewayViewPicture.Size.Width, sidewayViewPicture.Size.Height);
+            sideViewGraphics = Graphics.FromImage(sideView);
+            sidewayViewPicture.Image = sideView;
 
+            drawShipSideway(0);
         }
 
 
@@ -94,9 +98,12 @@ namespace NonClassicLogic
         }
 
         //отрисовка люльки крана и груза (позиция люльки крана, смещение груза из-за ветра, расстояние от люльки до груза, по умолчанию 5 метров)
-        private void drawCraneWithCargoSideWay(int distance = 15)
+        private void drawCraneWithCargoSideWay(double distance = 15)
         {
             int cranePos = sideView.Size.Width / 2 - 10;
+            //масштаб
+            double metersPerTick = (sideView.Size.Height - 70) / 30;
+
             //отрисовка люльки
             Point point1 = new Point(cranePos, 0);
             Point point2 = new Point(cranePos + 20, 0);
@@ -113,10 +120,10 @@ namespace NonClassicLogic
             sideViewGraphics.DrawPolygon(new Pen(Color.Black, 3), curvePoints);
 
             //отрисовка груза (длина = 36, высота = 9, точка соединения = 18)
-            Point p1 = new Point(cranePos + 10 - 18, 22 + distance);
-            Point p2 = new Point(cranePos + 10 - 18, 22 + 9 + distance);
-            Point p3 = new Point(cranePos + 10 + 18, 22 + 9 + distance);
-            Point p4 = new Point(cranePos + 10 + 18, 22 + distance);
+            Point p1 = new Point(cranePos + 10 - 18, 22 + (int)distance * (int)metersPerTick);
+            Point p2 = new Point(cranePos + 10 - 18, 22 + 9 + (int) distance * (int)metersPerTick);
+            Point p3 = new Point(cranePos + 10 + 18, 22 + 9 + (int) distance * (int)metersPerTick);
+            Point p4 = new Point(cranePos + 10 + 18, 22 + (int)distance * (int)metersPerTick);
             Point[] cargoPoints = 
             {
                 p1,
@@ -128,8 +135,8 @@ namespace NonClassicLogic
             sideViewGraphics.DrawPolygon(new Pen(Color.Black, 1), cargoPoints);
 
             //отрисовка каната от люльки до груза
-            sideViewGraphics.DrawLine(new Pen(Color.Black, 2), new Point(cranePos + 20, 20), new Point(cranePos + 10 + 18, 22 + distance));
-            sideViewGraphics.DrawLine(new Pen(Color.Black, 2), new Point(cranePos, 20), new Point(cranePos - 9, 22 + distance));
+            sideViewGraphics.DrawLine(new Pen(Color.Black, 2), new Point(cranePos + 20, 20), new Point(cranePos + 10 + 18, 22 + (int)distance * (int)metersPerTick));
+            sideViewGraphics.DrawLine(new Pen(Color.Black, 2), new Point(cranePos, 20), new Point(cranePos - 9, 22 + (int)distance * (int)metersPerTick));
         }
 
 
@@ -225,7 +232,7 @@ namespace NonClassicLogic
                         }
                         catch (Exception e)
                         {
-                            // todo: сообщить о фейле
+                            MessageBox.Show(e.Message, "Упс, груз разбит...", MessageBoxButtons.OK);
                         }
                         break;
                     }
@@ -278,7 +285,7 @@ namespace NonClassicLogic
 
             drawWaveSideway((int)(world.getWave()));
             //отрисовка люльки крана и груза
-            drawCraneWithCargoSideWay((int)world.getRobeLenght());
+            drawCraneWithCargoSideWay(world.getRobeLenght());
             //обновление изображения
             sidewayViewPicture.Refresh();
         }
