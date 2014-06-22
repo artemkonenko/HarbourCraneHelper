@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace NonClassicLogic
 {
@@ -26,6 +27,9 @@ namespace NonClassicLogic
         static Bitmap topView;
         //графика вида сверху
         static Graphics topViewGraphics;
+
+        OuterWorld world = new OuterWorld();
+        Expert expert = new Expert();
 
         public Form1()
         {
@@ -226,6 +230,57 @@ namespace NonClassicLogic
         private void label5_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void startButton_Click(object sender, EventArgs e)
+        {
+            for ( int i=1; i < 200; ++i  )
+            {
+                world.setTick((new Random()).Next() % 10);
+                double distance = (new Random()).Next() % 30;
+
+                windSpeed.Text = world.getWind().ToString();
+                waveHeight.Text = world.getWave().ToString();
+
+                sideView = new Bitmap(sidewayViewPicture.Size.Width, sidewayViewPicture.Size.Height);
+                sideViewGraphics = Graphics.FromImage(sideView);
+                sidewayViewPicture.Image = sideView;
+
+                drawWaveSideway((int)(world.getWave()));
+                //отрисовка корабля
+                drawShipSideway((int)(world.getWave()));
+                //отрисовка люльки крана и груза
+                drawCraneWithCargoSideWay((int)expert.getCranePos(world.getWind(), distance), (int)(world.getWind()), (int)distance);
+            
+                // ----
+
+                topView = new Bitmap(topViewPicture.Size.Width, topViewPicture.Size.Height);
+                topViewGraphics = Graphics.FromImage(topView);
+                topViewPicture.Image = topView;
+
+                drawShipTopView();
+                drawCraneTopView((new Random()).Next() % 20, (new Random()).Next() % 20, (int)(world.getWind()));
+
+            /*
+                windSpeed.Text = w.ToString();
+                
+                //drawShipSideway( w );
+                drawShipTopView();
+                //отрисовка крана
+                drawCraneTopView(w, (new Random()).Next() % 200, (new Random()).Next() % 20);
+
+                if (t)
+                    ++w;
+                else
+                    --w;
+
+                if (i % 24 == 0)
+                    t = !t;
+            
+                //
+             */
+                //Thread.Sleep(1);
+            }
         }
     }
 }
