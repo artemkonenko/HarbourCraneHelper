@@ -10,7 +10,7 @@ namespace Skorohod
 
     class Program
     {
-        enum DeviationFuzzyTypes { StronglyLeft, UnderControl, StronglyRight };
+        enum DeviationFuzzyTypes { UnderControl, OutControl };
         enum HeightFuzzyTypes { Dangerous, Close, Far };
         enum SpeedFuzzyTypes { Up, DownSlow, DownFast };
 
@@ -18,9 +18,8 @@ namespace Skorohod
         {
             /* Нечеткие правила для параметра ОТКЛОНЕНИЕ от конечной вертикали */
             FuzzyGraph deviationGraph = new FuzzyGraph(Enum.GetNames(typeof(DeviationFuzzyTypes)).Length);
-            deviationGraph.addFuzzyTrapeze((int)DeviationFuzzyTypes.StronglyLeft, new FuzzyTrapeze(-100, -100, -5, -3));
-            deviationGraph.addFuzzyTrapeze((int)DeviationFuzzyTypes.UnderControl, new FuzzyTrapeze(-5, -3, 3, 5));
-            deviationGraph.addFuzzyTrapeze((int)DeviationFuzzyTypes.StronglyRight, new FuzzyTrapeze(3, 5, 100, 100));
+            deviationGraph.addFuzzyTrapeze((int)DeviationFuzzyTypes.UnderControl, new FuzzyTrapeze(0, 0, 3, 5));
+            deviationGraph.addFuzzyTrapeze((int)DeviationFuzzyTypes.OutControl, new FuzzyTrapeze(3, 5, 100, 100));
 
             /* Нечеткие правила для параметра РАССТОЯНИЕ до палубы */
             FuzzyGraph heightGraph = new FuzzyGraph(Enum.GetNames(typeof(HeightFuzzyTypes)).Length);
@@ -36,13 +35,12 @@ namespace Skorohod
 
             /* Правила */
             int[,] rules = { 
-                           { 0, 0, 1 },         //StronglyLeft
                            { 0, 1, 2 },         //UnderControl
-                           { 0, 0, 1 }          //StronglyRight
+                           { 0, 0, 1 }          //OutControl
                            };
 
             /* Параметры */
-            double d = 4.5, h = 2.5;
+            double d = Math.Abs(4.5), h = 2.5;
             FuzzyDistribution deviationDistribution = deviationGraph.getFuzzyDistribution(d);
             FuzzyDistribution heightDistribution = heightGraph.getFuzzyDistribution(h);
 
