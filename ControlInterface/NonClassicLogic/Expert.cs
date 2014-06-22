@@ -8,14 +8,13 @@ namespace NonClassicLogic
 {
     class Expert
     {
-        double cargoSquare = 31589.472; // м^2
+        double cargoSquare = 31.589472; // м^2
         double cargoWeight = 30.4;      // кг
 
         private double windStrenght ( double windSpeed )
         {
             return windSpeed * windSpeed * 0.61 * cargoSquare;
         }
-
 
         // -----
 
