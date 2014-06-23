@@ -17,7 +17,7 @@ namespace NonClassicLogic
         const int INDENT = 40;
 
         private int tick = 0;
-
+        private double meters;
         //битмап вида сбоку
         static Bitmap sideView;
         //графика вида сбоку
@@ -41,6 +41,7 @@ namespace NonClassicLogic
             sideViewGraphics = Graphics.FromImage(sideView);
             sidewayViewPicture.Image = sideView;
 
+            meters = (sideView.Size.Height - 80) / 30;
         }
 
 
@@ -50,16 +51,15 @@ namespace NonClassicLogic
         //отрисовка корабля в виде сбоку, высота волны входной параметр
         private void drawShipSideway(double waveHeight = 0)
         {
-            double metersPerTick = (sideView.Size.Height - 80) / 30;
             // Create points that define polygon.
-            Point point1 = new Point(0 + INDENT, sideView.Size.Height - 60 - (int)(waveHeight * metersPerTick));
-            Point point2 = new Point(0 + 40 + INDENT, sideView.Size.Height - (int)(waveHeight * metersPerTick) - 20);
-            Point point3 = new Point(sideView.Size.Width - 40 - INDENT, sideView.Size.Height - (int)(waveHeight * metersPerTick) - 20);
-            Point point4 = new Point(sideView.Size.Width - INDENT, sideView.Size.Height - 60 - (int)(waveHeight * metersPerTick));
-            Point point5 = new Point(sideView.Size.Width - 40 - INDENT, sideView.Size.Height - 60 - (int)(waveHeight * metersPerTick));
-            Point point6 = new Point(sideView.Size.Width - 40 - INDENT, sideView.Size.Height - 100 - (int)(waveHeight * metersPerTick));
-            Point point7 = new Point(sideView.Size.Width - 80 - INDENT, sideView.Size.Height - 100 - (int)(waveHeight * metersPerTick));
-            Point point8 = new Point(sideView.Size.Width - 80 - INDENT, sideView.Size.Height - 60 - (int)(waveHeight * metersPerTick));
+            Point point1 = new Point(0 + INDENT, sideView.Size.Height - 60 - (int)(waveHeight * meters));
+            Point point2 = new Point(0 + 40 + INDENT, sideView.Size.Height - (int)(waveHeight * meters) - 35);
+            Point point3 = new Point(sideView.Size.Width - 40 - INDENT, sideView.Size.Height - (int)(waveHeight * meters) - 35);
+            Point point4 = new Point(sideView.Size.Width - INDENT, sideView.Size.Height - 60 - (int)(waveHeight * meters));
+            Point point5 = new Point(sideView.Size.Width - 40 - INDENT, sideView.Size.Height - 60 - (int)(waveHeight * meters));
+            Point point6 = new Point(sideView.Size.Width - 40 - INDENT, sideView.Size.Height - 100 - (int)(waveHeight * meters));
+            Point point7 = new Point(sideView.Size.Width - 80 - INDENT, sideView.Size.Height - 100 - (int)(waveHeight * meters));
+            Point point8 = new Point(sideView.Size.Width - 80 - INDENT, sideView.Size.Height - 60 - (int)(waveHeight * meters));
             Point[] curvePoints =
             {
                  point1,
@@ -78,7 +78,7 @@ namespace NonClassicLogic
         }
 
         //отрисовка волны
-        private void drawWaveSideway(int waveHeight = 0)
+        private void drawWaveSideway(double waveHeight = 0)
         {
             Point[] curvePoints = new Point[10];
             int step = sideView.Size.Width / 4;
@@ -86,8 +86,8 @@ namespace NonClassicLogic
             int lowPoints = 0;
             for (int i = 1; i < 10; i += 2)
             {
-                curvePoints[i - 1] = new Point(lowPoints + waveHeight/2, sideView.Size.Height);
-                curvePoints[i] = new Point(highPoints, sideView.Size.Height - waveHeight - 30 - 20);
+                curvePoints[i - 1] = new Point(lowPoints + (int)((waveHeight * meters)/2), sideView.Size.Height);
+                curvePoints[i] = new Point(highPoints, sideView.Size.Height - (int)(waveHeight * meters) - 30 - 20);
                 highPoints += step;
                 lowPoints += step;
             }
@@ -98,8 +98,6 @@ namespace NonClassicLogic
         private void drawCraneWithCargoSideWay(double distance = 15)
         {
             int cranePos = sideView.Size.Width / 2 - 10;
-            //масштаб
-            double metersPerTick = (sideView.Size.Height - 80) / 30;
 
             //отрисовка люльки
             Point point1 = new Point(cranePos, 0);
@@ -117,10 +115,10 @@ namespace NonClassicLogic
             sideViewGraphics.DrawPolygon(new Pen(Color.Black, 3), curvePoints);
 
             //отрисовка груза (длина = 36, высота = 9, точка соединения = 18)
-            Point p1 = new Point(cranePos + 10 - 18, 22 + (int)(distance * metersPerTick));
-            Point p2 = new Point(cranePos + 10 - 18, 22 + 9 + (int) (distance * metersPerTick));
-            Point p3 = new Point(cranePos + 10 + 18, 22 + 9 + (int) (distance * metersPerTick));
-            Point p4 = new Point(cranePos + 10 + 18, 22 + (int)(distance * metersPerTick));
+            Point p1 = new Point(cranePos + 10 - 18, 22 + (int)(distance * meters));
+            Point p2 = new Point(cranePos + 10 - 18, 22 + 9 + (int) (distance * meters));
+            Point p3 = new Point(cranePos + 10 + 18, 22 + 9 + (int) (distance * meters));
+            Point p4 = new Point(cranePos + 10 + 18, 22 + (int)(distance * meters));
             Point[] cargoPoints = 
             {
                 p1,
@@ -132,8 +130,8 @@ namespace NonClassicLogic
             sideViewGraphics.DrawPolygon(new Pen(Color.Black, 1), cargoPoints);
 
             //отрисовка каната от люльки до груза
-            sideViewGraphics.DrawLine(new Pen(Color.Black, 2), new Point(cranePos + 20, 20), new Point(cranePos + 10 + 18, 22 + (int)(distance * metersPerTick)));
-            sideViewGraphics.DrawLine(new Pen(Color.Black, 2), new Point(cranePos, 20), new Point(cranePos - 8, 22 + (int) (distance * metersPerTick)));
+            sideViewGraphics.DrawLine(new Pen(Color.Black, 2), new Point(cranePos + 20, 20), new Point(cranePos + 10 + 18, 22 + (int)(distance * meters)));
+            sideViewGraphics.DrawLine(new Pen(Color.Black, 2), new Point(cranePos, 20), new Point(cranePos - 8, 22 + (int) (distance * meters)));
         }
 
 
