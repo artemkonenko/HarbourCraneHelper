@@ -83,9 +83,49 @@ namespace NonClassicLogic
 
             /* и тут появляется Янушка */
             List<PointX> polygon = speedGraph.getPolygon(speedDistribution);
-            PointX p = Expert.centerOfMass(polygon);
+            PointX p = this.centerOfMass(polygon);
 
             return p.x;
+        }
+
+        private double signSquare(PointX p1, PointX p2, PointX p3) //знаковая площадь треугольника
+        {
+            return ((p2.x - p1.x) * (p3.y - p1.y) - (p2.y - p1.y) * (p3.x - p1.x)) / 2;
+        }
+
+        private PointX centroid(PointX p1, PointX p2, PointX p3) // центроид треугольника
+        {
+            return new PointX((p1.x + p2.x + p3.x) / 3, (p1.y + p2.y + p3.y) / 3);
+        }
+
+        private PointX centerOfMass(List<PointX> PointXs) // нахождение центра массы
+        {
+            PointX p = new PointX(0, 0); // произвольная точка для подсчета
+            double x = 0;
+            double y = 0;
+            double s = 0;
+            for (int i = 0; i < PointXs.Count - 1; i++)
+            {
+                double s1 = signSquare(p, PointXs[i], PointXs[i + 1]);
+                PointX r = centroid(p, PointXs[i], PointXs[i + 1]);
+                x += r.x * s1;
+                y += r.y * s1;
+                s += s1;
+            }
+            if (s != 0)
+            {
+                return new PointX(x / s, y / s);
+            }
+            else
+            {
+                // если у нас прямая, то мы берем среднее по Х
+                x = 0;
+                for (int i = 0; i < PointXs.Count; i++)
+                {
+                    x += PointXs[i].x;
+                }
+                return new PointX(x / PointXs.Count, 0);
+            }
         }
     }
 }
