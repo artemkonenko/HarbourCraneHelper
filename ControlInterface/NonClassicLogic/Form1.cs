@@ -48,18 +48,18 @@ namespace NonClassicLogic
 
 
         //отрисовка корабля в виде сбоку, высота волны входной параметр
-        private void drawShipSideway(int waveHeight = 0)
+        private void drawShipSideway(double waveHeight = 0)
         {
-
+            double metersPerTick = (sideView.Size.Height - 80) / 30;
             // Create points that define polygon.
-            Point point1 = new Point(0 + INDENT, sideView.Size.Height - 60 - waveHeight);
-            Point point2 = new Point(0 + 40 + INDENT, sideView.Size.Height - waveHeight - 20);
-            Point point3 = new Point(sideView.Size.Width - 40 - INDENT, sideView.Size.Height - waveHeight - 20);
-            Point point4 = new Point(sideView.Size.Width - INDENT, sideView.Size.Height - 60 - waveHeight);
-            Point point5 = new Point(sideView.Size.Width - 40 - INDENT, sideView.Size.Height - 60 - waveHeight);
-            Point point6 = new Point(sideView.Size.Width - 40 - INDENT, sideView.Size.Height - 100 - waveHeight);
-            Point point7 = new Point(sideView.Size.Width - 80 - INDENT, sideView.Size.Height - 100 - waveHeight);
-            Point point8 = new Point(sideView.Size.Width - 80 - INDENT, sideView.Size.Height - 60 - waveHeight);
+            Point point1 = new Point(0 + INDENT, sideView.Size.Height - 60 - (int)(waveHeight * metersPerTick));
+            Point point2 = new Point(0 + 40 + INDENT, sideView.Size.Height - (int)(waveHeight * metersPerTick) - 20);
+            Point point3 = new Point(sideView.Size.Width - 40 - INDENT, sideView.Size.Height - (int)(waveHeight * metersPerTick) - 20);
+            Point point4 = new Point(sideView.Size.Width - INDENT, sideView.Size.Height - 60 - (int)(waveHeight * metersPerTick));
+            Point point5 = new Point(sideView.Size.Width - 40 - INDENT, sideView.Size.Height - 60 - (int)(waveHeight * metersPerTick));
+            Point point6 = new Point(sideView.Size.Width - 40 - INDENT, sideView.Size.Height - 100 - (int)(waveHeight * metersPerTick));
+            Point point7 = new Point(sideView.Size.Width - 80 - INDENT, sideView.Size.Height - 100 - (int)(waveHeight * metersPerTick));
+            Point point8 = new Point(sideView.Size.Width - 80 - INDENT, sideView.Size.Height - 60 - (int)(waveHeight * metersPerTick));
             Point[] curvePoints =
             {
                  point1,
@@ -192,15 +192,39 @@ namespace NonClassicLogic
         //и начинает рисовать в отдельном потоке
         private void startGraphics()
         {
+            getParametersDelegate getParams = new getParametersDelegate(getParameters);
+            drawSideWayDelegate drawSideway = new drawSideWayDelegate(drawSideWay);
+            drawTopViewDelegate drawTopview = new drawTopViewDelegate(drawTopView);
+
             try
             {
                 world.setTick(tick);
                 while (true)
                 {
-                    if (world.getDistance() < 1 )
+                    if (world.getDistance() < 0.001 )
                     {
                         try
                         {
+                            //заполнение TextBox'ов с параметрами
+                            Invoke(getParams, tick);
+
+                            //вид сбоку, инициализация, отрисовка через делегат
+                            sideView = new Bitmap(sidewayViewPicture.Size.Width, sidewayViewPicture.Size.Height);
+                            sideViewGraphics = Graphics.FromImage(sideView);
+                            sidewayViewPicture.Image = sideView;
+
+                            //    !!!ACHTUNG!!!
+                            Invoke(drawSideway, world.getDistance());
+
+                            // ----
+
+                            //инициализация вида сверху, отрисовка через делегат
+                            topView = new Bitmap(topViewPicture.Size.Width, topViewPicture.Size.Height);
+                            topViewGraphics = Graphics.FromImage(topView);
+                            topViewPicture.Image = topView;
+
+                            //    !!!ACHTUNG!!!
+                            Invoke(drawTopview, world.getDistance());
                             world.release();
                         }
                         catch (Exception e)
@@ -212,7 +236,6 @@ namespace NonClassicLogic
 
                     world.setTick(tick);
                     //заполнение TextBox'ов с параметрами
-                    getParametersDelegate getParams = new getParametersDelegate(getParameters);
                     Invoke(getParams, tick);
 
                     //вид сбоку, инициализация, отрисовка через делегат
@@ -220,7 +243,7 @@ namespace NonClassicLogic
                     sideViewGraphics = Graphics.FromImage(sideView);
                     sidewayViewPicture.Image = sideView;
 
-                    drawSideWayDelegate drawSideway = new drawSideWayDelegate(drawSideWay);
+                    
                     //    !!!ACHTUNG!!!
                     Invoke(drawSideway, world.getDistance());
 
@@ -231,7 +254,6 @@ namespace NonClassicLogic
                     topViewGraphics = Graphics.FromImage(topView);
                     topViewPicture.Image = topView;
 
-                    drawTopViewDelegate drawTopview = new drawTopViewDelegate(drawTopView);
                     //    !!!ACHTUNG!!!
                     Invoke(drawTopview, world.getDistance());
 
@@ -258,6 +280,8 @@ namespace NonClassicLogic
 
         private void stopButton_Click(object sender, EventArgs e)
         {
+            tick = new Random().Next() % 30;
+            world = new OuterWorld();
             if ((graphicsThread != null) || (graphicsThread.ThreadState != System.Threading.ThreadState.Stopped))
                 graphicsThread.Interrupt();
         }
@@ -285,7 +309,7 @@ namespace NonClassicLogic
         private void drawSideWay(double distance)
         {
             //отрисовка корабля
-            drawShipSideway((int)(world.getWave()));
+            drawShipSideway(world.getWave());
             //отрисовка волны
             drawWaveSideway((int)(world.getWave()));
             //отрисовка люльки крана и груза

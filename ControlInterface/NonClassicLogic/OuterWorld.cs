@@ -30,13 +30,13 @@ namespace NonClassicLogic
 
         public double getDistance()
         {
-            return craneHeight + cargoVerticalMove() - getRobeLenght();
+            return craneHeight + cargoVerticalMove() - getRobeLenght() - getWave();
         }
 
         public void release() // Отпустить груз на палубу.
         {
             // todo: check, that we don't crash our niggas.
-            if (Math.Sqrt(2 * 10 * getDistance()) > 5)
+            if (Math.Sqrt(2 * 10 * getDistance()) > 1)
             {
                 throw new Exception("Мы продолбали груз.");
             }
@@ -59,7 +59,7 @@ namespace NonClassicLogic
 
         /* Физические расчеты */
         double cargoSquare = 31.589472; // м^2
-        double cargoWeight = 30.400;      // кг
+        double cargoWeight = 30400;      // кг
 
         public double windStrenght()
         {
