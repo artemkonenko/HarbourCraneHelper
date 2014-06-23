@@ -17,7 +17,10 @@ namespace NonClassicLogic
         const int INDENT = 40;
 
         private int tick = 0;
+
+        //масштаб
         private double meters;
+
         //битмап вида сбоку
         static Bitmap sideView;
         //графика вида сбоку
@@ -40,7 +43,7 @@ namespace NonClassicLogic
             sideView = new Bitmap(sidewayViewPicture.Size.Width, sidewayViewPicture.Size.Height);
             sideViewGraphics = Graphics.FromImage(sideView);
             sidewayViewPicture.Image = sideView;
-
+            //инициализация масштаба
             meters = (sideView.Size.Height - 80) / 30;
         }
 
@@ -210,8 +213,6 @@ namespace NonClassicLogic
                             sideView = new Bitmap(sidewayViewPicture.Size.Width, sidewayViewPicture.Size.Height);
                             sideViewGraphics = Graphics.FromImage(sideView);
                             sidewayViewPicture.Image = sideView;
-
-                            //    !!!ACHTUNG!!!
                             Invoke(drawSideway, world.getDistance());
 
                             // ----
@@ -220,14 +221,12 @@ namespace NonClassicLogic
                             topView = new Bitmap(topViewPicture.Size.Width, topViewPicture.Size.Height);
                             topViewGraphics = Graphics.FromImage(topView);
                             topViewPicture.Image = topView;
-
-                            //    !!!ACHTUNG!!!
                             Invoke(drawTopview, world.getDistance());
                             world.release();
                         }
                         catch (Exception e)
                         {
-                            MessageBox.Show(e.Message, "Упс, груз разбит...", MessageBoxButtons.OK);
+                            MessageBox.Show(e.Message, "Груз...", MessageBoxButtons.OK);
                         }
                         break;
                     }
@@ -240,9 +239,6 @@ namespace NonClassicLogic
                     sideView = new Bitmap(sidewayViewPicture.Size.Width, sidewayViewPicture.Size.Height);
                     sideViewGraphics = Graphics.FromImage(sideView);
                     sidewayViewPicture.Image = sideView;
-
-                    
-                    //    !!!ACHTUNG!!!
                     Invoke(drawSideway, world.getDistance());
 
                     // ----
@@ -251,15 +247,13 @@ namespace NonClassicLogic
                     topView = new Bitmap(topViewPicture.Size.Width, topViewPicture.Size.Height);
                     topViewGraphics = Graphics.FromImage(topView);
                     topViewPicture.Image = topView;
-
-                    //    !!!ACHTUNG!!!
                     Invoke(drawTopview, world.getDistance());
 
                     world.moveRobe(expert.getMaxCargoSpeed(world.cargoHorizontalMove(), world.getDistance()));
                     world.moveCraneHorizontal(expert.getCraneDeviationCompensation(world.cargoHorizontalMove(), world.getDistance()));
 
                     tick++;
-                    Thread.Sleep(100);
+                    Thread.Sleep(500);
                 }
             }
             catch (System.ObjectDisposedException e) { }
@@ -310,7 +304,7 @@ namespace NonClassicLogic
             //отрисовка корабля
             drawShipSideway(world.getWave());
             //отрисовка волны
-            drawWaveSideway((int)(world.getWave()));
+            drawWaveSideway(world.getWave());
             //отрисовка люльки крана и груза
             drawCraneWithCargoSideWay(world.getRobeLenght() - world.cargoVerticalMove());
             //обновление изображения
