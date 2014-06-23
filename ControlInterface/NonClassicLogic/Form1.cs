@@ -44,7 +44,7 @@ namespace NonClassicLogic
             sideViewGraphics = Graphics.FromImage(sideView);
             sidewayViewPicture.Image = sideView;
             //инициализация масштаба
-            meters = (sideView.Size.Height - 80) / 30;
+            meters = (sideView.Size.Height - 80) / (int)world.getCraneHeight();
         }
 
 
@@ -266,10 +266,10 @@ namespace NonClassicLogic
         private void getParameters(int i)
         {
             iteration.Text = i.ToString();
-            windSpeed.Text = world.getWind().ToString();
-            waveHeight.Text = world.getWave().ToString();
-            distanceText.Text = world.getDistance().ToString();
-            deviation.Text = world.cargoHorizontalMove().ToString();
+            windSpeed.Text = world.getWind().ToString(".####");
+            waveHeight.Text = world.getWave().ToString(".####");
+            distanceText.Text = world.getDistance().ToString(".####");
+            deviation.Text = world.cargoHorizontalMove().ToString(".####");
 
             windSpeed.Refresh();
             waveHeight.Refresh();
