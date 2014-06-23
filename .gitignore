@@ -27,5 +27,8 @@
 # caches
 *.cache
 
+#log files
+*.txt
+
 Skorohod/Skorohod/bin/*
 Skorohod/Skorohod/obj/*
