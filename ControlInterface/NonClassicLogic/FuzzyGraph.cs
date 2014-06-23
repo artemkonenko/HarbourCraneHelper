@@ -57,11 +57,20 @@ namespace NonClassicLogic
             {
                 return null;
             }
-            Trapeze t1 = _list[0].Cut(distribution[0]);
+
+            //добавил Вадик
+            int j = 0;
+            while (distribution[j] == 0) { j++; }
+
+            Trapeze t1 = _list[j].Cut(distribution[j]);
             res.Add(t1.bottomLeft);
             res.Add(t1.topLeft);
-            for (int i = 1; i < _list.Count; i++)
+
+            for (int i = j + 1; i < _list.Count; i++)
             {
+                if (distribution[i] == 0)
+                    continue;
+
                 Trapeze t2 = _list[i].Cut(distribution[i]);
                 PointX intersection = PointX.getIntersection(t1.topRight, t1.bottomRight, t2.bottomLeft, t2.topLeft);
                 if (intersection != null)

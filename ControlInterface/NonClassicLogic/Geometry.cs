@@ -76,7 +76,7 @@ namespace NonClassicLogic
             return new Trapeze(
                 new PointX(this.bottomLeft, 0),
                 new PointX(this.bottomLeft + (this.topLeft - this.bottomLeft) * level, level),
-                new PointX(this.topRight + (this.bottomRight - this.topRight) * level, level),
+                new PointX(this.bottomRight - (this.bottomRight - this.topRight) * level, level),
                 new PointX(this.bottomRight, 0)
                 );
         }
