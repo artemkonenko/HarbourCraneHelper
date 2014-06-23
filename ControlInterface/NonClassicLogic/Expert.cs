@@ -11,6 +11,7 @@ namespace NonClassicLogic
         private FuzzyLogic logic = new FuzzyLogic(
             OuterWorld.maxHorizontalCraneSpeed * OuterWorld.timeDimension,
             OuterWorld.maxRobeDownSpeed * OuterWorld.timeDimension);
+
         public double getCranePos( double cargoHorizontalMove, double distance ) // Сопротивление ветру
         {            
             return this.logic.getDeviationCompensation(cargoHorizontalMove, distance); //ветер
