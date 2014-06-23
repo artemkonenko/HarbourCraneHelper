@@ -256,6 +256,7 @@ namespace NonClassicLogic
                     Invoke(drawTopview, world.getDistance());
 
                     world.moveRobe(expert.getMaxCargoSpeed(world.cargoHorizontalMove(), world.getDistance()));
+                    world.moveCraneHorizontal(expert.getCraneDeviationCompensation(world.cargoHorizontalMove(), world.getDistance()));
 
                     tick++;
                     Thread.Sleep(100);
@@ -323,7 +324,7 @@ namespace NonClassicLogic
             //отрисовка корабля
             drawShipTopView();
             //отрисовка люльки крана и груза
-            drawCraneTopView((int)expert.getCranePos(world.cargoHorizontalMove(), world.getDistance()), (int)(world.cargoHorizontalMove()));
+            drawCraneTopView((int)world.getCraneHorizontalPos(), (int)(world.cargoHorizontalMove()));
             //обновление изображения
             topViewPicture.Refresh();
         }

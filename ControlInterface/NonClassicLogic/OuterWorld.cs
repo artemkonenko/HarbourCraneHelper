@@ -12,11 +12,14 @@ namespace NonClassicLogic
         public static readonly double maxRobeDownSpeed = 3.0;           // м/c
         public static readonly double maxRobeUpSpeed = 1.0;             // м/c
         public static readonly double maxHorizontalCraneSpeed = 4.0;    // м/c
+        public static readonly double craneHeight = 30;     // м
+
+        /* Параметры корябля */
+        public static readonly double shipWidth = 32;
 
         /* Параметры внешнего мира */
         public static readonly double maxStrength = 15;     // м/c
         public static readonly double maxHeight = 8;        // м
-        public static readonly double craneHeight = 30;     // м
 
         /* Параметры системы */
         public static readonly double timeDimension = 0.1; // Разрешение системы/частота опроса
@@ -36,7 +39,7 @@ namespace NonClassicLogic
         public void release() // Отпустить груз на палубу.
         {
             // todo: check, that we don't crash our niggas.
-            if (Math.Sqrt(2 * 10 * getDistance()) > 1)
+            if (Math.Abs(Math.Sqrt(2 * 10 * getDistance())) > 0.1 || Math.Abs(cargoHorizontalMove() + getCraneHorizontalPos()) > shipWidth)
             {
                 throw new Exception("Мы продолбали груз.");
             }
@@ -55,6 +58,14 @@ namespace NonClassicLogic
                 diff = -1 * maxRobeUpSpeed * timeDimension;
 
             robeLenght += diff;
+        }
+
+        public void moveCraneHorizontal(double diff)
+        {
+            if (Math.Abs(diff) > maxHorizontalCraneSpeed * timeDimension)
+                diff = Math.Sign(diff) * maxHorizontalCraneSpeed * timeDimension;
+
+            craneHorizontalPos += diff;
         }
 
         /* Физические расчеты */
@@ -93,6 +104,11 @@ namespace NonClassicLogic
             return robeLenght;
         }
 
+        public double getCraneHorizontalPos()
+        {
+            return craneHorizontalPos;
+        }
+
         public double getCraneHeight()
         {
             return craneHeight;
@@ -102,6 +118,7 @@ namespace NonClassicLogic
         double waveState = 0;
 
         double robeLenght = 0;
+        double craneHorizontalPos = 0;
         long tick = 0;
     }
 }
