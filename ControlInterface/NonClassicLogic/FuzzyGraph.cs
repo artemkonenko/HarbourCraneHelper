@@ -26,7 +26,7 @@ namespace NonClassicLogic
             for (int i = 0; i < this._list.Count; ++i) 
             {
                 FuzzyTrapeze c = this._list[i];
-                if (x <= c.bottomLeft || c.bottomRight <= x)
+                if (x < c.bottomLeft || c.bottomRight < x)
                 {
                     res[i] = 0;
                     continue;
@@ -38,7 +38,7 @@ namespace NonClassicLogic
                     continue;
                 }
 
-                if (c.bottomLeft < x && x < c.topLeft)
+                if (c.bottomLeft <= x && x < c.topLeft)
                 {
                     res[i] = (x - c.bottomLeft) / (c.topLeft - c.bottomLeft);
                     continue;
