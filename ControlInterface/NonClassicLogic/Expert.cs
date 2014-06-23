@@ -38,7 +38,13 @@ namespace NonClassicLogic
             }
             else
             {
-                return new PointX(0, 0);
+                // если у нас прямая, то мы берем среднее по Х
+                x = 0;
+                for (int i = 0; i < PointXs.Count; i++)
+                {
+                    x += PointXs[i].x;
+                }
+                return new PointX(x / PointXs.Count, 0);
             }
         }
 
