@@ -266,10 +266,10 @@ namespace NonClassicLogic
         private void getParameters(int i)
         {
             iteration.Text = i.ToString();
-            windSpeed.Text = world.getWind().ToString(".####");
-            waveHeight.Text = world.getWave().ToString(".####");
-            distanceText.Text = world.getDistance().ToString(".####");
-            deviation.Text = world.cargoHorizontalMove().ToString(".####");
+            windSpeed.Text = world.getWind().ToString("0.####");
+            waveHeight.Text = world.getWave().ToString("0.####");
+            distanceText.Text = world.getDistance().ToString("0.####");
+            deviation.Text = world.cargoHorizontalMove().ToString("0.####");
 
             windSpeed.Refresh();
             waveHeight.Refresh();
