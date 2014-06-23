@@ -16,7 +16,7 @@ namespace NonClassicLogic
         public static readonly double craneHeight = 30;     // м
 
         /* Параметры корябля */
-        public static readonly double shipWidth = 32;
+        public static readonly double shipWidth = 32;       // м
 
         /* Параметры внешнего мира */
         public static readonly double maxStrength = 15;     // м/c
@@ -37,18 +37,15 @@ namespace NonClassicLogic
             return craneHeight + cargoVerticalMove() - getRobeLenght() - getWave();
         }
 
-        public void release() // Отпустить груз на палубу.
+        public bool release() // Отпустить груз на палубу.
         {
             saveLog("Release");
             // todo: check, that we don't crash our niggas.
             if (Math.Abs(Math.Sqrt(2 * 10 * getDistance())) > 0.1 || Math.Abs(cargoHorizontalMove() + getCraneHorizontalPos()) > shipWidth)
             {
-                throw new Exception("Мы продолбали груз.");
+                return false;
             }
-            else
-            {
-                throw new Exception("Мы успешно погрузили груз.");
-            }
+            return true;
         }
 
         /* Управления системой */
@@ -100,7 +97,7 @@ namespace NonClassicLogic
         //сохранение лога данных в файле
         private void saveLog(String message)
         {
-            FileStream file = new FileStream("log.txt", FileMode.OpenOrCreate);
+            FileStream file = new FileStream("log.txt", FileMode.Append);
             StreamWriter fileWriter = new StreamWriter(file);
             fileWriter.WriteLine("**********************************************************************");
             fileWriter.WriteLine(message);
@@ -135,9 +132,6 @@ namespace NonClassicLogic
         {
             return craneHeight;
         }
-
-        double windState = 0;
-        double waveState = 0;
 
         double robeLenght = 0;
         double craneHorizontalPos = 0;

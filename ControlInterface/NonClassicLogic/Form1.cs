@@ -200,59 +200,40 @@ namespace NonClassicLogic
             try
             {
                 world.setTick(tick);
+
                 while (true)
                 {
+                    sideView = new Bitmap(sidewayViewPicture.Size.Width, sidewayViewPicture.Size.Height);
+                    sideViewGraphics = Graphics.FromImage(sideView);
+                    sidewayViewPicture.Image = sideView;
+
+                    topView = new Bitmap(topViewPicture.Size.Width, topViewPicture.Size.Height);
+                    topViewGraphics = Graphics.FromImage(topView);
+                    topViewPicture.Image = topView;
+
+                    //заполнение TextBox'ов с параметрами
+                    Invoke(getParams, tick);
+                    Invoke(drawSideway, world.getDistance());
+                    Invoke(drawTopview, world.getDistance());
+
                     if (world.getDistance() < 0.001 )
                     {
-                        try
+                        if (world.release())
                         {
-                            //заполнение TextBox'ов с параметрами
-                            Invoke(getParams, tick);
-
-                            //вид сбоку, инициализация, отрисовка через делегат
-                            sideView = new Bitmap(sidewayViewPicture.Size.Width, sidewayViewPicture.Size.Height);
-                            sideViewGraphics = Graphics.FromImage(sideView);
-                            sidewayViewPicture.Image = sideView;
-                            Invoke(drawSideway, world.getDistance());
-
-                            // ----
-
-                            //инициализация вида сверху, отрисовка через делегат
-                            topView = new Bitmap(topViewPicture.Size.Width, topViewPicture.Size.Height);
-                            topViewGraphics = Graphics.FromImage(topView);
-                            topViewPicture.Image = topView;
-                            Invoke(drawTopview, world.getDistance());
-                            world.release();
+                            MessageBox.Show("Мы успешно погрузили груз.", "Погрузка окончена", MessageBoxButtons.OK);
                         }
-                        catch (Exception e)
+                        else
                         {
-                            MessageBox.Show(e.Message, "Груз...", MessageBoxButtons.OK);
+                            MessageBox.Show("Мы продолбали груз.", "Погрузка окончена", MessageBoxButtons.OK);
                         }
                         break;
                     }
 
-                    world.setTick(tick);
-                    //заполнение TextBox'ов с параметрами
-                    Invoke(getParams, tick);
-
-                    //вид сбоку, инициализация, отрисовка через делегат
-                    sideView = new Bitmap(sidewayViewPicture.Size.Width, sidewayViewPicture.Size.Height);
-                    sideViewGraphics = Graphics.FromImage(sideView);
-                    sidewayViewPicture.Image = sideView;
-                    Invoke(drawSideway, world.getDistance());
-
-                    // ----
-
-                    //инициализация вида сверху, отрисовка через делегат
-                    topView = new Bitmap(topViewPicture.Size.Width, topViewPicture.Size.Height);
-                    topViewGraphics = Graphics.FromImage(topView);
-                    topViewPicture.Image = topView;
-                    Invoke(drawTopview, world.getDistance());
+                    world.setTick(tick++);
 
                     world.moveRobe(expert.getMaxCargoSpeed(world.cargoHorizontalMove(), world.getDistance()));
                     world.moveCraneHorizontal(expert.getCraneDeviationCompensation(world.cargoHorizontalMove(), world.getDistance()));
 
-                    tick++;
                     Thread.Sleep(100);
                 }
             }
