@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace NonClassicLogic
 {
@@ -38,6 +39,7 @@ namespace NonClassicLogic
 
         public void release() // Отпустить груз на палубу.
         {
+            saveLog("Release");
             // todo: check, that we don't crash our niggas.
             if (Math.Abs(Math.Sqrt(2 * 10 * getDistance())) > 0.1 || Math.Abs(cargoHorizontalMove() + getCraneHorizontalPos()) > shipWidth)
             {
@@ -58,6 +60,7 @@ namespace NonClassicLogic
                 diff = -1 * maxRobeUpSpeed * timeDimension;
 
             robeLenght += diff;
+            saveLog("Move Robe");
         }
 
         public void moveCraneHorizontal(double diff)
@@ -66,6 +69,7 @@ namespace NonClassicLogic
                 diff = Math.Sign(diff) * maxHorizontalCraneSpeed * timeDimension;
 
             craneHorizontalPos += diff;
+            saveLog("Move Crane Horizontal");
         }
 
         /* Физические расчеты */
@@ -91,6 +95,24 @@ namespace NonClassicLogic
         {
             double alpha = Math.Atan(windStrenght() / (cargoWeight * 10));
             return getRobeLenght() * (1 - Math.Cos(alpha));
+        }
+
+        //сохранение лога данных в файле
+        private void saveLog(String message)
+        {
+            FileStream file = new FileStream("log.txt", FileMode.OpenOrCreate);
+            StreamWriter fileWriter = new StreamWriter(file);
+            fileWriter.WriteLine("**********************************************************************");
+            fileWriter.WriteLine(message);
+            fileWriter.WriteLine("current tick = " + this.tick);
+            fileWriter.WriteLine("current wind = " + this.getWind());
+            fileWriter.WriteLine("current wave = " + this.getWave());
+            fileWriter.WriteLine("current distance = " + this.getDistance());
+            fileWriter.WriteLine("current ropeLength = " + this.getRobeLenght());
+            fileWriter.WriteLine("current Crane Horizontal Position = " + this.getCraneHorizontalPos());
+            fileWriter.WriteLine("**********************************************************************");
+            fileWriter.Close();
+            file.Close();
         }
 
         /* Мусор */

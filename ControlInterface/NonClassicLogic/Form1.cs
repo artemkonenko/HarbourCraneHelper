@@ -253,7 +253,7 @@ namespace NonClassicLogic
                     world.moveCraneHorizontal(expert.getCraneDeviationCompensation(world.cargoHorizontalMove(), world.getDistance()));
 
                     tick++;
-                    Thread.Sleep(500);
+                    Thread.Sleep(100);
                 }
             }
             catch (System.ObjectDisposedException e) { }
