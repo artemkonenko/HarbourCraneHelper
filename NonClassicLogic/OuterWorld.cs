@@ -29,8 +29,12 @@ namespace NonClassicLogic
         /* Получение данных о среде */
         public double cargoHorizontalMove()
         {
-            double alpha = Math.Atan(windStrenght() / (cargoWeight * 10));
-            return Math.Sign(getWind()) * getRopeLenght() * Math.Sin(alpha);
+            return Math.Sign(getWind()) * getRopeLenght() * Math.Sin(getRopeAngle());
+        }
+
+        public double getRopeAngle()
+        {
+            return Math.Atan(windStrenght() / (cargoWeight * 10));
         }
 
         public double getDistance()
@@ -91,8 +95,7 @@ namespace NonClassicLogic
 
         public double cargoVerticalMove()
         {
-            double alpha = Math.Atan(windStrenght() / (cargoWeight * 10));
-            return getRopeLenght() * (1 - Math.Cos(alpha));
+            return getRopeLenght() * (1 - Math.Cos(getRopeAngle()));
         }
 
         //сохранение лога данных в файле

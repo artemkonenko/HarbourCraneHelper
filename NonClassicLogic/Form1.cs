@@ -231,7 +231,7 @@ namespace NonClassicLogic
 
                     world.setTick(tick++);
 
-                    world.moveRope(expert.getMaxCargoSpeed(world.cargoHorizontalMove(), world.getDistance()));
+                    world.moveRope(expert.getMaxCargoSpeed(world.cargoHorizontalMove(), world.getDistance()) / cos(world.getRopeAngle()));
                     world.moveCraneHorizontal(expert.getCraneDeviationCompensation(world.cargoHorizontalMove(), world.getDistance()));
 
                     Thread.Sleep(100);
